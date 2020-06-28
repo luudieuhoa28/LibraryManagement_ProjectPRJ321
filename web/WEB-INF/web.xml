@@ -20,6 +20,18 @@
         <servlet-name>SearchController</servlet-name>
         <servlet-class>controller.SearchController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateBookController</servlet-name>
+        <servlet-class>controller.UpdateBookController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteBookController</servlet-name>
+        <servlet-class>controller.DeleteBookController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddBookController</servlet-name>
+        <servlet-class>controller.AddBookController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -39,6 +51,18 @@
     <servlet-mapping>
         <servlet-name>SearchController</servlet-name>
         <url-pattern>/SearchController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateBookController</servlet-name>
+        <url-pattern>/UpdateBookController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteBookController</servlet-name>
+        <url-pattern>/DeleteBookController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBookController</servlet-name>
+        <url-pattern>/AddBookController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

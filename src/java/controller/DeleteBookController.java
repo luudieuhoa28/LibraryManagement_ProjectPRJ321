@@ -6,26 +6,21 @@
 package controller;
 
 import daos.BookDAO;
-import dtos.BookDTO;
-import dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class SearchController extends HttpServlet {
+public class DeleteBookController extends HttpServlet {
 
-    private static final String SEARCH_SUCCESS_ADMIN = "search_admin.jsp";
-    private static final String SEARCH_SUCCESS_USER = "search_user.jsp";
-    private static final String SEARCH_ERROR = "error_page.jsp";
+    private static final String DELETE_SUCCESS = "SearchController";
+    private static final String DELETE_ERROR = "error_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,23 +34,13 @@ public class SearchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = SEARCH_ERROR;
+        String url = DELETE_ERROR;
         try {
-            String txtSearch = request.getParameter("txtSearch");
-            List<BookDTO> bookList = BookDAO.searchBookByName(txtSearch);
-            HttpSession session = request.getSession();
-            session.setAttribute("LIST_SEARCH_BOOK", bookList);
-            UserDTO user = (UserDTO) session.getAttribute("USER_DTO");
-            if (user != null) {
-                if (user.getRole().contains("admin")) {
-                    url = SEARCH_SUCCESS_ADMIN;
-                } else {
-                    url = SEARCH_SUCCESS_USER;
-                }
-            }
-
+            String bookId = request.getParameter("bookId");
+            BookDAO.deleteBook(bookId);
+            url = DELETE_SUCCESS;
         } catch (Exception e) {
-            log("Error at SearchController " + e);
+            log(e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

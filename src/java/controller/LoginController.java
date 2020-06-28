@@ -19,8 +19,11 @@ import javax.servlet.http.HttpSession;
  * @author dell
  */
 public class LoginController extends HttpServlet {
-    public final static String LOGIN_SUCESS = "search.jsp";
+
+    private static final String SEARCH_SUCCESS_ADMIN = "search_admin.jsp";
+    private static final String SEARCH_SUCCESS_USER = "search_user.jsp";
     public final static String LOGIN_ERROR = "login_error_page.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,8 +41,13 @@ public class LoginController extends HttpServlet {
             String userId = request.getParameter("userId");
             String password = request.getParameter("password");
             UserDTO userDTO = UserDAO.checkLogin(userId, password);
-            if(userDTO != null) {
-                url = LOGIN_SUCESS;
+            if (userDTO != null) {
+                log(userDTO.getRole());
+                if (userDTO.getRole().contains("admin")) {
+                    url = SEARCH_SUCCESS_ADMIN;
+                } else {
+                    url = SEARCH_SUCCESS_USER;
+                }
                 HttpSession session = request.getSession();
                 session.setAttribute("USER_DTO", userDTO);
             }

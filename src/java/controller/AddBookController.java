@@ -7,25 +7,22 @@ package controller;
 
 import daos.BookDAO;
 import dtos.BookDTO;
-import dtos.UserDTO;
+import dtos.BookErrorDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class SearchController extends HttpServlet {
+public class AddBookController extends HttpServlet {
 
-    private static final String SEARCH_SUCCESS_ADMIN = "search_admin.jsp";
-    private static final String SEARCH_SUCCESS_USER = "search_user.jsp";
-    private static final String SEARCH_ERROR = "error_page.jsp";
+    private static final String ADD_BOOK_SUCCESS = "SearchController";
+    private static final String ADD_BOOK_ERROR = "add_book_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,23 +36,51 @@ public class SearchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = SEARCH_ERROR;
+        String url = ADD_BOOK_ERROR;
+        BookErrorDTO bookErrorDTO = new BookErrorDTO();
         try {
-            String txtSearch = request.getParameter("txtSearch");
-            List<BookDTO> bookList = BookDAO.searchBookByName(txtSearch);
-            HttpSession session = request.getSession();
-            session.setAttribute("LIST_SEARCH_BOOK", bookList);
-            UserDTO user = (UserDTO) session.getAttribute("USER_DTO");
-            if (user != null) {
-                if (user.getRole().contains("admin")) {
-                    url = SEARCH_SUCCESS_ADMIN;
-                } else {
-                    url = SEARCH_SUCCESS_USER;
-                }
+            boolean check = true;
+            String bookId = request.getParameter("bookId");
+            if (bookId.isEmpty()) {
+                bookErrorDTO.setBookIdError("ID cannot be null!!!");
+                check = false;
+            }
+
+            String bookName = request.getParameter("bookName");
+            if (bookName.isEmpty()) {
+                bookErrorDTO.setBookNameError("Name cannot be null!!!");
+                check = false;
+            }
+            String bookAuthor = request.getParameter("bookAuthor");
+            String bookPublisher = request.getParameter("bookPublisher");
+            int bookTotal = 0;
+            try {
+                bookTotal = Integer.parseInt(request.getParameter("bookTotal"));
+            } catch (Exception e) {
+                bookErrorDTO.setBookTotalError("This must be a number");
+                check = false;
+            }
+            int bookExportYear = 0;
+            try {
+                bookExportYear = Integer.parseInt(request.getParameter("bookExportYear"));
+            } catch (Exception e) {
+                bookErrorDTO.setBookYearExError("This must be a number");
+                check = false;
+            }
+            if (check) {
+                url = ADD_BOOK_SUCCESS;
+                BookDTO bookDTO = new BookDTO(bookId, bookName, bookAuthor, bookPublisher, bookTotal, bookTotal, bookExportYear);
+                BookDAO.addBook(bookDTO);
+            } else {
+                request.setAttribute("BOOK_ERROR", bookErrorDTO);
             }
 
         } catch (Exception e) {
-            log("Error at SearchController " + e);
+            log(e.toString());
+            if (e.toString().contains("duplicate")) {
+                bookErrorDTO.setBookIdError("This ID existed!!!");
+                request.setAttribute("BOOK_ERROR", bookErrorDTO);
+            }
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -18,11 +18,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MainController extends HttpServlet {
 
-    public final static String LOGIN = "LoginController";   
+    public final static String LOGIN = "LoginController";
     public final static String ERROR = "error_page.jsp";
     public final static String REGISTER = "RegisterController";
     public final static String LOGOUT = "LogoutController";
     public final static String SEARCH = "SearchController";
+    public final static String UPDATE_BOOK_PAGE = "update_book.jsp";
+    public final static String UPDATE_BOOK = "UpdateBookController";
+    public final static String DELETE_BOOK = "DeleteBookController";
+    public final static String ADD_BOOK = "AddBookController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,6 +55,18 @@ public class MainController extends HttpServlet {
                     break;
                 case "Logout":
                     url = LOGOUT;
+                    break;
+                case "Update Page":
+                    url = UPDATE_BOOK_PAGE;
+                    break;
+                case "Update Book":
+                    url = UPDATE_BOOK;
+                    break;
+                case "Delete Book":
+                    url = DELETE_BOOK;
+                    break;
+                case "Add Book":
+                    url = ADD_BOOK;
                     break;
             }
         } catch (Exception e) {

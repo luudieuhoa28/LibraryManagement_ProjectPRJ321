@@ -5,6 +5,7 @@
  */
 package daos;
 
+import static com.sun.activation.registries.LogSupport.log;
 import dbutils.DBUtils;
 import dtos.BookDTO;
 
@@ -29,25 +30,25 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT book_id, name, author, publisher, total_books, available_books "
+                String sql = "SELECT book_id, book_name, author, publisher, total_books, available_books, year_export "
                         + "FROM Book "
-                        + "WHERE name like '%?%'";
+                        + "WHERE book_name like '%" + txtSearch + "%'";
                 preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setString(1, txtSearch);
                 resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     String bookId = resultSet.getString("book_id");
-                    String bookName = resultSet.getString("name");
+                    String bookName = resultSet.getString("book_name");
                     String author = resultSet.getString("author");
                     String publisher = resultSet.getString("publisher");
-                    int tolalBook = resultSet.getInt("total_book");
+                    int tolalBook = resultSet.getInt("total_books");
                     int availableBook = resultSet.getInt("available_books");
-                    BookDTO bookDTO = new BookDTO(bookId, bookName, author, publisher, tolalBook, availableBook);
+                    int yearExport = resultSet.getInt("year_export");
+                    BookDTO bookDTO = new BookDTO(bookId, bookName, author, publisher, tolalBook, availableBook, yearExport);
                     listBook.add(bookDTO);
                 }
             }
         } catch (Exception e) {
-            System.out.println("Exception at searchBookByName " + e);
+            log("Exception at searchBookByName " + e);
         } finally {
             if (conn != null) {
                 conn.close();
@@ -61,6 +62,89 @@ public class BookDAO {
         }
         return listBook;
 
+    }
+
+    public static void updateBook(BookDTO bookDTO) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Book SET book_name = ?, author = ?, "
+                        + "publisher = ?, total_books = ?, year_export = ? "
+                        + "WHERE book_id = ?";
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, bookDTO.getBookName());
+                preparedStatement.setString(2, bookDTO.getAuthor());
+                preparedStatement.setString(3, bookDTO.getPublisher());
+                preparedStatement.setInt(4, bookDTO.getTotalBook());
+                preparedStatement.setString(5, bookDTO.getYearOfExport()+ "");
+                preparedStatement.setString(6, bookDTO.getBookId());
+                preparedStatement.executeUpdate();
+            }
+        } catch (Exception e) {
+            log(e.toString());
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public static void deleteBook(String bookId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "DELETE Book WHERE book_id = ?";
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, bookId);
+                preparedStatement.executeQuery();
+            }
+        } catch (Exception e) {
+            log(e.toString());
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public static void addBook(BookDTO bookDTO) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "INSERT INTO Book(book_id, book_name, author, publisher, total_books, available_books, year_export) "
+                        + "VALUES (?,?,?,?,?,?,?)";
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, bookDTO.getBookId());
+                preparedStatement.setString(2, bookDTO.getBookName());
+                preparedStatement.setString(3, bookDTO.getAuthor());
+                preparedStatement.setString(4, bookDTO.getPublisher());
+                preparedStatement.setInt(5, bookDTO.getTotalBook());
+                preparedStatement.setInt(6, bookDTO.getTotalBook());
+                preparedStatement.setString(7, bookDTO.getYearOfExport() + "");
+                preparedStatement.executeQuery();
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
     }
 
 }

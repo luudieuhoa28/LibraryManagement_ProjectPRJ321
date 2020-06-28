@@ -16,17 +16,19 @@ public class BookDTO {
     private String publisher;
     private int totalBook;
     private int availableBook;
+    private int yearOfExport;
 
     public BookDTO() {
     }
 
-    public BookDTO(String bookId, String bookName, String author, String publisher, int totalBook, int availableBook) {
+    public BookDTO(String bookId, String bookName, String author, String publisher, int totalBook, int availableBook, int yearOfExport) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
         this.publisher = publisher;
         this.totalBook = totalBook;
         this.availableBook = availableBook;
+        this.yearOfExport = yearOfExport;
     }
 
     public String getBookId() {
@@ -76,6 +78,13 @@ public class BookDTO {
     public void setAvailableBook(int availableBook) {
         this.availableBook = availableBook;
     }
-    
-    
+
+    public int getYearOfExport() {
+        return yearOfExport;
+    }
+
+    public void setYearOfExport(int yearOfExport) {
+        this.yearOfExport = yearOfExport;
+    }
+   
 }
