@@ -66,7 +66,7 @@ public class UpdateBookController extends HttpServlet {
 
             int bookAvailable = Integer.parseInt(request.getParameter("bookAvailable"));
             if (check) {
-                BookDTO bookDTO = new BookDTO(bookId, bookName, bookAuthor, bookPublisher, bookTotal, bookAvailable, yearOfExport);
+                BookDTO bookDTO = new BookDTO(bookId, bookName, bookAuthor, bookPublisher, bookTotal, bookAvailable, yearOfExport, 0);
                 BookDAO.updateBook(bookDTO);
                 url = UPDATE_SUCCESS;
             } else {

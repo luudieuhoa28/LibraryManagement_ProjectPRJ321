@@ -5,23 +5,27 @@
  */
 package controller;
 
-import daos.UserDAO;
+import dtos.BookDTO;
+import dtos.CartDTO;
 import dtos.UserDTO;
-import dtos.UserErrorDTO;
+
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class RegisterController extends HttpServlet {
+public class AddToCardController extends HttpServlet {
 
-    public static final String REGISTER_SUCCESS = "login.jsp";
-    public static final String REGISTER_ERROR = "register.jsp";
+    public final static String ADD_TO_CARD_SUCCESS = "SearchController";
+    public final static String ADD_TO_CARD_ERROR = "error_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,61 +39,38 @@ public class RegisterController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = REGISTER_ERROR;
-        UserErrorDTO userErrorDTO = new UserErrorDTO();
+        String url = ADD_TO_CARD_ERROR;
         try {
-            boolean isValid = true;
-
-            String userId = request.getParameter("userId");
-            String name = request.getParameter("name");
-            String gender = request.getParameter("cbxGender");
-            String phone = request.getParameter("phone");
-            String address = request.getParameter("address");
-            String password = request.getParameter("password");
-            String rePass = request.getParameter("rePassword");
-
-            if (userId.isEmpty()) {
-                userErrorDTO.setUserIdError("User name can not be empty");
-                isValid = false;
+            String bookId = request.getParameter("bookId");
+            String bookName = request.getParameter("bookName");
+            int availableBook = Integer.parseInt(request.getParameter("availableBook"));
+            HttpSession session = request.getSession();
+            BookDTO bookDTO = new BookDTO(bookId, bookName, 1, availableBook);
+            CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
+            if (cartDTO == null) {
+                cartDTO = new CartDTO("", null);
             }
-            if (name.isEmpty()) {
-                userErrorDTO.setNameError("Full name can not be empty");
-                isValid = false;
-            }
-            if (!password.endsWith(rePass)) {
-                userErrorDTO.setPasswordError("Password and repassword is not matched");
-                isValid = false;
-            } else if (password.isEmpty()) {
-                userErrorDTO.setPasswordError("Password can not be empty");
-                isValid = false;
-            }
-            request.setAttribute("USER_ID_VALUE", userId);
-            request.setAttribute("NAME_VALUE", name);
-            request.setAttribute("GENDER_VALUE", gender);
-            request.setAttribute("PHONE_VALUE", phone);
-            request.setAttribute("ADDRESS_VALUE", address);
-            request.setAttribute("PASSWORD_VALUE", password);
-            request.setAttribute("RE_PASSWORD_VALUE", rePass);
 
-            if (isValid) {
-                url = REGISTER_SUCCESS;
-                UserDTO userDTO = new UserDTO(userId, password, "US", name, gender, phone, address);
-                UserDAO.registAcc(userDTO);
+            int numInCart = 0;
+            if (cartDTO.getCart() != null) {
+                if (cartDTO.getCart().containsKey(bookId)) {
+                    numInCart = cartDTO.getCart().get(bookId).getNumInCart();
+                }
+            }
 
+            if (numInCart == availableBook) {
+                request.setAttribute("MESSAGE_CART", "The number of " + bookName + " is limmited!!!");
             } else {
-                request.setAttribute("ERROR_ACCOUNT", userErrorDTO);
-            }
+                request.setAttribute("MESSAGE_CART", "You add " + bookName + " successfully!!!");
+                cartDTO.addToCard(bookDTO);
 
-        } catch (Exception e) {
-            if (e.toString().contains("duplicate")) {
-                userErrorDTO.setUserIdError("This user name existed!!!");
-                request.setAttribute("ERROR_ACCOUNT", userErrorDTO);
-                url = REGISTER_ERROR;
             }
+            session.setAttribute("CART", cartDTO);
+            url = ADD_TO_CARD_SUCCESS;
+        } catch (Exception e) {
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
