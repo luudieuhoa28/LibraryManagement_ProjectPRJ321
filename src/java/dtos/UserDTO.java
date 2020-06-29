@@ -5,11 +5,13 @@
  */
 package dtos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author dell
  */
-public class UserDTO {
+public class UserDTO implements Serializable{
     private String userId;
     private String password;
     private String role;

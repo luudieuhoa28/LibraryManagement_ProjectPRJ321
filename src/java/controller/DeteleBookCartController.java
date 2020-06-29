@@ -5,24 +5,22 @@
  */
 package controller;
 
-import daos.BookDAO;
-import dtos.BookDTO;
-import dtos.BookErrorDTO;
+import dtos.CartDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class AddBookController extends HttpServlet {
+public class DeteleBookCartController extends HttpServlet {
 
-    private static final String ADD_BOOK_SUCCESS = "SearchController";
-    private static final String ADD_BOOK_ERROR = "add_book_page.jsp";
+    private static final String DELETE_BOOK_CART = "view_cart.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,54 +34,13 @@ public class AddBookController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ADD_BOOK_ERROR;
-        BookErrorDTO bookErrorDTO = new BookErrorDTO();
+        String url = DELETE_BOOK_CART;
         try {
-            boolean check = true;
             String bookId = request.getParameter("bookId");
-            if (bookId.isEmpty()) {
-                bookErrorDTO.setBookIdError("ID cannot be null!!!");
-                check = false;
-            }
-
-            String bookName = request.getParameter("bookName");
-            if (bookName.isEmpty()) {
-                bookErrorDTO.setBookNameError("Name cannot be null!!!");
-                check = false;
-            }
-            String bookAuthor = request.getParameter("bookAuthor");
-            String bookPublisher = request.getParameter("bookPublisher");
-            int bookTotal = 0;
-            try {
-                bookTotal = Integer.parseInt(request.getParameter("bookTotal"));
-            } catch (Exception e) {
-                bookErrorDTO.setBookTotalError("This must be a number");
-                check = false;
-            }
-            int bookExportYear = 0;
-            try {
-                bookExportYear = Integer.parseInt(request.getParameter("bookExportYear"));
-            } catch (Exception e) {
-                bookErrorDTO.setBookYearExError("This must be a number");
-                check = false;
-            }
-            if (check) {
-                url = ADD_BOOK_SUCCESS;
-                BookDTO bookDTO = new BookDTO(bookId, bookName, bookAuthor, bookPublisher, bookTotal, bookTotal, bookExportYear, 0);
-                BookDAO.addBook(bookDTO);
-
-            } else {
-                request.setAttribute("BOOK_ERROR", bookErrorDTO);
-            }
-
+            HttpSession session = request.getSession();
+            CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
+            cartDTO.delete(bookId);
         } catch (Exception e) {
-            System.out.println(e.toString());
-            log(e.toString());
-            if (e.toString().contains("duplicate")) {
-                bookErrorDTO.setBookIdError("This ID existed!!!");
-                request.setAttribute("BOOK_ERROR", bookErrorDTO);
-                url = ADD_BOOK_ERROR;
-            }
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

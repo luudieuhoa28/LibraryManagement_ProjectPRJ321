@@ -5,11 +5,14 @@
  */
 package dtos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author dell
  */
-public class BookDTO {
+public class BookDTO implements Serializable {
+
     private String bookId;
     private String bookName;
     private String author;
@@ -17,11 +20,12 @@ public class BookDTO {
     private int totalBook;
     private int availableBook;
     private int yearOfExport;
+    private int numInCart;
 
     public BookDTO() {
     }
 
-    public BookDTO(String bookId, String bookName, String author, String publisher, int totalBook, int availableBook, int yearOfExport) {
+    public BookDTO(String bookId, String bookName, String author, String publisher, int totalBook, int availableBook, int yearOfExport, int numInCart) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
@@ -29,6 +33,22 @@ public class BookDTO {
         this.totalBook = totalBook;
         this.availableBook = availableBook;
         this.yearOfExport = yearOfExport;
+        this.numInCart = numInCart;
+    }
+
+    public BookDTO(String bookId, String bookName, int numInCart, int availableBook) {
+        this.bookId = bookId;
+        this.bookName = bookName;
+        this.numInCart = numInCart;
+        this.availableBook = availableBook;
+    }
+
+    public int getNumInCart() {
+        return numInCart;
+    }
+
+    public void setNumInCart(int numInCart) {
+        this.numInCart = numInCart;
     }
 
     public String getBookId() {
@@ -86,5 +106,5 @@ public class BookDTO {
     public void setYearOfExport(int yearOfExport) {
         this.yearOfExport = yearOfExport;
     }
-   
+
 }

@@ -27,6 +27,11 @@ public class MainController extends HttpServlet {
     public final static String UPDATE_BOOK = "UpdateBookController";
     public final static String DELETE_BOOK = "DeleteBookController";
     public final static String ADD_BOOK = "AddBookController";
+    public final static String SHOW_BOOK_INFO = "ShowBookInfoController";
+    public final static String ADD_TO_CARD = "AddToCardController";
+    public final static String BORROW_BOOK = "BorrowBookController";
+    public final static String UPDATE_CART = "UpdateCartController";
+    public final static String DELETE_BOOK_CART = "DeteleBookCartController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -67,6 +72,21 @@ public class MainController extends HttpServlet {
                     break;
                 case "Add Book":
                     url = ADD_BOOK;
+                    break;
+                case "ShowBookInfo":
+                    url = SHOW_BOOK_INFO;
+                    break;
+                case "Add to cart":
+                    url = ADD_TO_CARD;
+                    break;
+                case "Borrow":
+                    url = BORROW_BOOK;
+                    break;
+                case "Update Cart":
+                    url = UPDATE_CART;
+                    break;
+                case "Delete":
+                    url = DELETE_BOOK_CART;
                     break;
             }
         } catch (Exception e) {

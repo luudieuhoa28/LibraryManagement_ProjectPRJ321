@@ -43,7 +43,7 @@ public class BookDAO {
                     int tolalBook = resultSet.getInt("total_books");
                     int availableBook = resultSet.getInt("available_books");
                     int yearExport = resultSet.getInt("year_export");
-                    BookDTO bookDTO = new BookDTO(bookId, bookName, author, publisher, tolalBook, availableBook, yearExport);
+                    BookDTO bookDTO = new BookDTO(bookId, bookName, author, publisher, tolalBook, availableBook, yearExport, 0);
                     listBook.add(bookDTO);
                 }
             }
@@ -78,7 +78,7 @@ public class BookDAO {
                 preparedStatement.setString(2, bookDTO.getAuthor());
                 preparedStatement.setString(3, bookDTO.getPublisher());
                 preparedStatement.setInt(4, bookDTO.getTotalBook());
-                preparedStatement.setString(5, bookDTO.getYearOfExport()+ "");
+                preparedStatement.setString(5, bookDTO.getYearOfExport() + "");
                 preparedStatement.setString(6, bookDTO.getBookId());
                 preparedStatement.executeUpdate();
             }
@@ -136,7 +136,8 @@ public class BookDAO {
                 preparedStatement.executeQuery();
             }
         } catch (SQLException e) {
-            throw e;
+            //throw e;
+            String err = e.toString();
         } finally {
             if (conn != null) {
                 conn.close();

@@ -32,6 +32,18 @@
         <servlet-name>AddBookController</servlet-name>
         <servlet-class>controller.AddBookController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddToCardController</servlet-name>
+        <servlet-class>controller.AddToCardController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCartController</servlet-name>
+        <servlet-class>controller.UpdateCartController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeteleBookCartController</servlet-name>
+        <servlet-class>controller.DeteleBookCartController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -63,6 +75,18 @@
     <servlet-mapping>
         <servlet-name>AddBookController</servlet-name>
         <url-pattern>/AddBookController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCardController</servlet-name>
+        <url-pattern>/AddToCardController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCartController</servlet-name>
+        <url-pattern>/UpdateCartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeteleBookCartController</servlet-name>
+        <url-pattern>/DeteleBookCartController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
