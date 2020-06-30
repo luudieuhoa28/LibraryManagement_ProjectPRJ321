@@ -8,11 +8,12 @@ package controller;
 import daos.UserDAO;
 import dtos.UserDTO;
 import dtos.UserErrorDTO;
-import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  *
@@ -39,7 +40,7 @@ public class RegisterController extends HttpServlet {
         UserErrorDTO userErrorDTO = new UserErrorDTO();
         try {
             boolean isValid = true;
-
+            request.setCharacterEncoding("UTF-8");
             String userId = request.getParameter("userId");
             String name = request.getParameter("name");
             String gender = request.getParameter("cbxGender");
@@ -49,7 +50,7 @@ public class RegisterController extends HttpServlet {
             String rePass = request.getParameter("rePassword");
 
             if (userId.isEmpty()) {
-                userErrorDTO.setUserIdError("User name can not be empty");
+                userErrorDTO.setUserIdError(name+"User name can not be empty có có");
                 isValid = false;
             }
             if (name.isEmpty()) {

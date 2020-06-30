@@ -13,8 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <c:set var="errorRegister" value="${requestScope.ERROR_ACCOUNT}"/>
-
+    <c:set var="errorRegister" value="${requestScope.ERROR_ACCOUNT}"/>
         <form action="MainController" method="POST">
             User name: <input type="text" name="userId" value="${requestScope.USER_ID_VALUE}"/></br>
             ${errorRegister.userIdError} </br>
