@@ -1,5 +1,4 @@
-./build
-./dist
+build
+dist
 .vscode
 .idea
-/dist/
