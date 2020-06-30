@@ -50,7 +50,7 @@ public class RegisterController extends HttpServlet {
             String rePass = request.getParameter("rePassword");
 
             if (userId.isEmpty()) {
-                userErrorDTO.setUserIdError(name+"User name can not be empty có có");
+                userErrorDTO.setUserIdError("User name can not be empty");
                 isValid = false;
             }
             if (name.isEmpty()) {
