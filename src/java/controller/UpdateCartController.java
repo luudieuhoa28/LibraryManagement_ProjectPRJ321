@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
  * @author dell
  */
 public class UpdateCartController extends HttpServlet {
+
     public final static String UPDATE_CART = "view_cart.jsp";
 
     /**
@@ -33,16 +34,22 @@ public class UpdateCartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       String url = UPDATE_CART;
+        String url = UPDATE_CART;
         try {
             String bookId = request.getParameter("bookId");
             try {
                 int numInCart = Integer.parseInt(request.getParameter("numInCart"));
                 HttpSession session = request.getSession();
                 CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
-                cartDTO.updateQuantity(bookId, numInCart);
+                int availableBook = cartDTO.getCart().get(bookId).getAvailableBook();
+                if (availableBook >= numInCart) {
+                    cartDTO.updateQuantity(bookId, numInCart);
+                } else {
+                    request.setAttribute("MESSAGE_CART", "This have only " + availableBook + " available books!!!");
+                }
+
             } catch (Exception e) {
-            }           
+            }
         } catch (Exception e) {
         } finally {
             request.getRequestDispatcher(url).forward(request, response);

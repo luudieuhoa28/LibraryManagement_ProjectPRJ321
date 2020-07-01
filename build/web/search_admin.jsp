@@ -55,7 +55,7 @@
                                 <td>${book.publisher}</td>
                                 <input type="hidden" name="bookPublisher" value="${book.publisher}"/>
                                 <td>${book.yearOfExport}</td>
-                                <input type="hidden" name="bookPublisher" value="${book.yearOfExport}"/>
+                                <input type="hidden" name="yearOfExport" value="${book.yearOfExport}"/>
                                 <td>${book.totalBook}</td>
                                 <input type="hidden" name="bookTotal" value="${book.totalBook}"/>
                                 <td>${book.availableBook}</td>

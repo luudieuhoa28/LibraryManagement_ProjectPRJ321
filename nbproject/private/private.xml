@@ -3,12 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/web/add_book_page.jsp</file>
-            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/daos/BookDAO.java</file>
-            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/web/search_admin.jsp</file>
-            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/controller/AddBookController.java</file>
-            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/web/META-INF/context.xml</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/controller/BorrowBookController.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/daos/OrderDetailDAO.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/web/book_info.jsp</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/dtos/OrderDetailDTO.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/web/book_infor.jsp</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/daos/OrderDAO.java</file>
             <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/daos/UserDAO.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/controller/DeleteBookController.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/daos/BookDAO.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/dtos/OrderDTO.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/web/search_user.jsp</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/controller/ShowBookInfoController.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/dtos/UserDTO.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/controller/AddToCardController.java</file>
+            <file>file:/E:/CN4/PRJ321/FinalProjectPRJ321/src/java/dbutils/DBUtils.java</file>
         </group>
     </open-files>
 </project-private>

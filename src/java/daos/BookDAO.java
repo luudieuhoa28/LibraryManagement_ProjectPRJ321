@@ -8,6 +8,7 @@ package daos;
 import static com.sun.activation.registries.LogSupport.log;
 import dbutils.DBUtils;
 import dtos.BookDTO;
+import dtos.OrderDetailDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -136,8 +137,63 @@ public class BookDAO {
                 preparedStatement.executeQuery();
             }
         } catch (SQLException e) {
-            //throw e;
-            String err = e.toString();
+            throw e;
+            // String err = e.toString();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public static void updateAvailable(List<OrderDetailDTO> listDetail) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Book "
+                        + "SET available_books = available_books - ? "
+                        + "WHERE book_id = ?";
+                for (OrderDetailDTO orderDetailDTO : listDetail) {
+                    preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setInt(1, orderDetailDTO.getQuantity());
+                    preparedStatement.setString(2, orderDetailDTO.getBookId());
+                    preparedStatement.executeUpdate();
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public static void updateAvailable(String bookId, int numChange) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Book "
+                        + "SET available_books = available_books - ? "
+                        + "WHERE book_id = ?";
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setInt(1, numChange);
+                preparedStatement.setString(2, bookId);
+                preparedStatement.executeUpdate();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         } finally {
             if (conn != null) {
                 conn.close();

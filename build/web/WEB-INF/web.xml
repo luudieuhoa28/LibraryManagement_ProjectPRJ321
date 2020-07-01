@@ -44,6 +44,14 @@
         <servlet-name>DeteleBookCartController</servlet-name>
         <servlet-class>controller.DeteleBookCartController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowBookInfoController</servlet-name>
+        <servlet-class>controller.ShowBookInfoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BorrowBookController</servlet-name>
+        <servlet-class>controller.BorrowBookController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -87,6 +95,14 @@
     <servlet-mapping>
         <servlet-name>DeteleBookCartController</servlet-name>
         <url-pattern>/DeteleBookCartController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowBookInfoController</servlet-name>
+        <url-pattern>/ShowBookInfoController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BorrowBookController</servlet-name>
+        <url-pattern>/BorrowBookController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
