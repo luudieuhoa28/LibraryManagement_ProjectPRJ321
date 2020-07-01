@@ -20,7 +20,7 @@ public class DBUtils {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String url = "jdbc:sqlserver://localhost:1433;databaseName=LibraryManagement";
-            conn = DriverManager.getConnection(url, "sa", "123");
+            conn = DriverManager.getConnection(url, "sa", "ngochuy@2012");
         } catch (Exception e) {
             System.out.println(e);
         }
