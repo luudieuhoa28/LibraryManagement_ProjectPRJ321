@@ -42,7 +42,7 @@
                                 <td>${counter.count}</td>
                                 <td>${book.bookId}</td>
                             <input type="hidden" name="bookId" value="${book.bookId}"/>
-                            <td><a href="MainController?bookId=${book.bookId}&btnAction=ShowBookInfo">${book.bookName}</a></td>
+                                <td><a href="ShowBookInfoController?bookName=${book.bookName}&bookId=${book.bookId}&author=${book.author}&publisher=${book.publisher}&exportYear=${book.yearOfExport}&available=${book.availableBook}&txtSearch=${param.txtSearch}">${book.bookName}</a></td>
                             <input type="hidden" name="bookName" value="${book.bookName}"/>
                             <c:if test="${book.availableBook > 0}">
                                 <c:set var="isCheck" value="checked"/>
@@ -53,7 +53,7 @@
                                 <c:set var="isDisabled" value="disabled"/>
                             </c:if>
                             <td><input type="checkbox" disabled ${isCheck}/></td>
-                            <input type="hidden" name="availableBook" value="${book.availableBook}"/>
+                            <input type="hidden" name="available" value="${book.availableBook}"/>
                             <input type="hidden" name="txtSearch" value="${param.txtSearch}"/>
                             <td>
                                 <input type="submit" name="btnAction" value="Add to cart" ${isDisabled}/>
@@ -71,6 +71,7 @@
         <p>${requestScope.MESSAGE_CART}</p>
         <a href="MainController?btnAction=Logout">Logout</a>
         <a href="view_cart.jsp">View Cart</a>
+        ${requestScope.BORROW_MESSAGE}
     </c:if>
 </body>
 </html>

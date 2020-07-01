@@ -49,7 +49,11 @@
                     </c:forEach>
                 </tbody>
             </table>
+            <p>${requestScope.MESSAGE_CART}</p>
+            <a href="BorrowBookController">Borrow</a>
+
         </c:if>
     </c:if>
+    ${requestScope.BORROW_MESSAGE}
 </body>
 </html>

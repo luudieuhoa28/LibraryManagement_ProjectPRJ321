@@ -24,7 +24,8 @@ import javax.servlet.http.HttpSession;
  */
 public class AddToCardController extends HttpServlet {
 
-    public final static String ADD_TO_CARD_SUCCESS = "SearchController";
+    public final static String ADD_TO_CARD_SEARCH = "SearchController";
+    public final static String ADD_TO_CARD_INFOR = "book_infor.jsp";
     public final static String ADD_TO_CARD_ERROR = "error_page.jsp";
 
     /**
@@ -43,30 +44,52 @@ public class AddToCardController extends HttpServlet {
         try {
             String bookId = request.getParameter("bookId");
             String bookName = request.getParameter("bookName");
-            int availableBook = Integer.parseInt(request.getParameter("availableBook"));
+            int availableBook = Integer.parseInt(request.getParameter("available"));
             HttpSession session = request.getSession();
             BookDTO bookDTO = new BookDTO(bookId, bookName, 1, availableBook);
             CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
             if (cartDTO == null) {
                 cartDTO = new CartDTO("", null);
             }
-
-            int numInCart = 0;
-            if (cartDTO.getCart() != null) {
-                if (cartDTO.getCart().containsKey(bookId)) {
-                    numInCart = cartDTO.getCart().get(bookId).getNumInCart();
+            if (request.getParameter("quantityInCart") != null) {
+                int numInCart = 0;
+                try {
+                    numInCart = Integer.parseInt(request.getParameter("quantityInCart"));
+                    if (numInCart > 0 && numInCart <= availableBook) {
+                        if (cartDTO.addToCard(bookDTO, numInCart)) {
+                            session.setAttribute("CART", cartDTO);
+                            request.setAttribute("MESSAGE_CART", "You add " + bookName + " successfully!!!");
+                            request.setAttribute("NUM_IN_CARD", numInCart);
+                        } else {
+                            request.setAttribute("MESSAGE_CART", "The number of " + bookName + " is limmited!!!");
+                        }
+                    } else {
+                        request.setAttribute("MESSAGE_CART", "The number of " + bookName + " is limmited!!!");
+                    }
+                } catch (Exception e) {
+                    request.setAttribute("MESSAGE_CART", "This must be an number!!!");
+                } finally {
+                    url = ADD_TO_CARD_INFOR;
+                    request.setAttribute("AVAILABLE", availableBook);
                 }
-            }
-
-            if (numInCart == availableBook) {
-                request.setAttribute("MESSAGE_CART", "The number of " + bookName + " is limmited!!!");
             } else {
-                request.setAttribute("MESSAGE_CART", "You add " + bookName + " successfully!!!");
-                cartDTO.addToCard(bookDTO);
+                int numInCart = 0;
+                if (cartDTO.getCart() != null) {
+                    if (cartDTO.getCart().containsKey(bookId)) {
+                        numInCart = cartDTO.getCart().get(bookId).getNumInCart();
+                    }
+                }
 
+                if (numInCart == availableBook) {
+                    request.setAttribute("MESSAGE_CART", "The number of " + bookName + " is limmited!!!");
+                } else {
+                    request.setAttribute("MESSAGE_CART", "You add " + bookName + " successfully!!!");
+                    cartDTO.addToCard(bookDTO, 1);
+
+                }
+                session.setAttribute("CART", cartDTO);
+                url = ADD_TO_CARD_SEARCH;
             }
-            session.setAttribute("CART", cartDTO);
-            url = ADD_TO_CARD_SUCCESS;
         } catch (Exception e) {
         } finally {
             request.getRequestDispatcher(url).forward(request, response);

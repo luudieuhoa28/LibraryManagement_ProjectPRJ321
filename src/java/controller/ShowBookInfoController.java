@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author dell
  */
 public class ShowBookInfoController extends HttpServlet {
-//    public static final String GET_BOOK_SUCESS = 
+
+    public static final String GET_BOOK_SUCESS = "book_infor.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,17 +32,17 @@ public class ShowBookInfoController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ShowBookInfoController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ShowBookInfoController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = GET_BOOK_SUCESS;
+        try {
+            int available = Integer.parseInt(request.getParameter("available"));
+            if (request.getAttribute("AVAILABLE") != null) {
+                available = Integer.parseInt((String) request.getAttribute("AVAILABLE"));
+            }
+            request.setAttribute("AVAILABLE", available);
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
