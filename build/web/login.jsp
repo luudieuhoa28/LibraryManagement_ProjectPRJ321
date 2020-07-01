@@ -13,7 +13,7 @@
     </head>
     <body>
     <form action="MainController" method="post">
-        User name<input type="text" name="userId"/></br>
+       Tiếng việt nè!! User name<input type="text" name="userId"/></br>
         Password<input type="password" name="password"/></br>
         <input type="submit" name="btnAction" value="Login"/>
         <input type="reset" value="Reset"/>

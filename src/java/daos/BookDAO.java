@@ -5,7 +5,6 @@
  */
 package daos;
 
-import static com.sun.activation.registries.LogSupport.log;
 import dbutils.DBUtils;
 import dtos.BookDTO;
 import dtos.OrderDetailDTO;
@@ -16,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sun.activation.registries.LogSupport.log;
 
 /**
  *
