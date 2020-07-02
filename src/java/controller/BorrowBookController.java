@@ -57,28 +57,34 @@ public class BorrowBookController extends HttpServlet {
             HttpSession session = request.getSession();
             UserDTO userDTO = (UserDTO) session.getAttribute("USER_DTO");
             String userId = userDTO.getUserId();
+            
             //get current date
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             Date currentDate = new Date();
             String borrowDate = dateFormat.format(currentDate);
+            
             //get return date (1 month later)
             Calendar c = Calendar.getInstance();
             c.setTime(currentDate);
             c.add(Calendar.MONTH, 1);
             Date currentDatePlusOne = c.getTime();
             String returnDate = dateFormat.format(currentDatePlusOne);
+            
+            //Insert into Order table and get order_id
             OrderDTO orderDTO = new OrderDTO(userId, borrowDate, returnDate);
             int orderId = OrderDAO.addOrder(orderDTO);
 
             int quantity = 1;
+            //this action get from search_user or book_infor
             if (request.getParameter("bookId") != null) {
                 String bookId = request.getParameter("bookId");
-
+                //this is from book_infor
                 if (request.getParameter("quantityInCart") != null) {
                     try {
                         quantity = Integer.parseInt(request.getParameter("quantityInCart"));
                         int available = Integer.parseInt((String) request.getParameter("available"));
                         if (quantity <= available && quantity > 0) {
+                            //used in BookInfoController
                             request.setAttribute("AVAILABLE", available - quantity);
                             OrderDetailDTO orderDetailDTO = new OrderDetailDTO(orderId, bookId, quantity);
                             OrderDetailDAO.addOrderDetail(orderDetailDTO);
@@ -91,6 +97,7 @@ public class BorrowBookController extends HttpServlet {
                         request.setAttribute("BORROW_MESSAGE", "Please enter quantity!!!");
                     }
                     url = BORROW_BOOK_CART_INFO;
+                //this is from search_user
                 } else {
                     OrderDetailDTO orderDetailDTO = new OrderDetailDTO(orderId, bookId, quantity);
                     OrderDetailDAO.addOrderDetail(orderDetailDTO);
@@ -98,13 +105,14 @@ public class BorrowBookController extends HttpServlet {
                     request.setAttribute("BORROW_MESSAGE", "Borrow successfully!!!");
                     url = BORROW_BOOK_CART_SEARCH;
                 }
-
+            //this action get from view_cart.jsp
             } else {
                 CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
                 if (cartDTO != null) {
                     Set setKey = cartDTO.getCart().keySet();
                     Iterator it = setKey.iterator();
                     List<OrderDetailDTO> listDetail = new ArrayList<>();
+                    //get listDetail form CART
                     while (it.hasNext()) {
                         BookDTO bookDTO = cartDTO.getCart().get((String) it.next());
                         OrderDetailDTO orderDetailDTO = new OrderDetailDTO(orderId, bookDTO.getBookId(), bookDTO.getNumInCart());

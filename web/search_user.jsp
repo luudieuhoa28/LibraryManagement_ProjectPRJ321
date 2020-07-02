@@ -72,6 +72,7 @@
         <a href="MainController?btnAction=Logout">Logout</a>
         <a href="view_cart.jsp">View Cart</a>
         ${requestScope.BORROW_MESSAGE}
+        <a href="MainController?btnAction=ListBorrowedBook&userId=${userDTO.userId}">View Borrowed Book</a>
     </c:if>
 </body>
 </html>

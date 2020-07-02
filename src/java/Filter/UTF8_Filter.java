@@ -41,7 +41,7 @@ public class UTF8_Filter implements Filter {
  
         request.setCharacterEncoding("UTF-8");
  
-        // Cho phép request được đi tiếp. (Vượt qua Filter này).
+        // Allow request go ahead. (Pass this Filter).
         chain.doFilter(request, response);
     }
  

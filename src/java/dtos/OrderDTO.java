@@ -46,8 +46,4 @@ public class OrderDTO {
     public void setReturnDate(String returnDate) {
         this.returnDate = returnDate;
     }
-    
-    
-    
-    
 }

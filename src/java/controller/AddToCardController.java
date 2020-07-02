@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 public class AddToCardController extends HttpServlet {
 
     public final static String ADD_TO_CARD_SEARCH = "SearchController";
-    public final static String ADD_TO_CARD_INFOR = "book_infor.jsp";
+    public final static String ADD_TO_CARD_INFOR = "ShowBookInfoController";
     public final static String ADD_TO_CARD_ERROR = "error_page.jsp";
 
     /**
@@ -42,6 +42,7 @@ public class AddToCardController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ADD_TO_CARD_ERROR;
         try {
+            //get bookId, bookName, available to create new book to add to cart
             String bookId = request.getParameter("bookId");
             String bookName = request.getParameter("bookName");
             int availableBook = Integer.parseInt(request.getParameter("available"));
@@ -51,6 +52,7 @@ public class AddToCardController extends HttpServlet {
             if (cartDTO == null) {
                 cartDTO = new CartDTO("", null);
             }
+            //this is from book_infor.jsp
             if (request.getParameter("quantityInCart") != null) {
                 int numInCart = 0;
                 try {
@@ -59,6 +61,7 @@ public class AddToCardController extends HttpServlet {
                         if (cartDTO.addToCard(bookDTO, numInCart)) {
                             session.setAttribute("CART", cartDTO);
                             request.setAttribute("MESSAGE_CART", "You add " + bookName + " successfully!!!");
+                            //use in book_info.jsp
                             request.setAttribute("NUM_IN_CARD", numInCart);
                         } else {
                             request.setAttribute("MESSAGE_CART", "The number of " + bookName + " is limmited!!!");
@@ -70,10 +73,11 @@ public class AddToCardController extends HttpServlet {
                     request.setAttribute("MESSAGE_CART", "This must be an number!!!");
                 } finally {
                     url = ADD_TO_CARD_INFOR;
-                    request.setAttribute("AVAILABLE", availableBook);
                 }
+            //this is from search_user.jsp    
             } else {
                 int numInCart = 0;
+                //get the number of this book was in cart
                 if (cartDTO.getCart() != null) {
                     if (cartDTO.getCart().containsKey(bookId)) {
                         numInCart = cartDTO.getCart().get(bookId).getNumInCart();

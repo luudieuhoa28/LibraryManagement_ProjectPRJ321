@@ -43,23 +43,14 @@ public class CartDTO {
             } else {
                 bookDTO.setNumInCart(quantity + numInCart);
             }
-
+        } else {
+            bookDTO.setNumInCart(numInCart);
         }
+        
         cart.put(bookDTO.getBookId(), bookDTO);
         return true;
     }
 
-//    public void addToCard(BookDTO bookDTO, int numInCart) {
-//        if (this.cart == null) {
-//            this.cart = new HashMap<>();
-//        }
-//
-//        if (!this.cart.containsKey(bookDTO.getBookId())) {
-//            this.cart.put(bookDTO.getBookId(), bookDTO);
-//        }
-//        bookDTO.setNumInCart(bookDTO.getNumInCart() + );
-//        cart.put(bookDTO.getBookId(), bookDTO);
-//    }
     public void delete(String bookId) {
         if (this.cart != null) {
             this.cart.remove(bookId);
@@ -70,8 +61,6 @@ public class CartDTO {
         if (this.cart != null) {
             if (this.cart.containsKey(bookId)) {
                 this.cart.get(bookId).setNumInCart(quantity);
-            } else {
-
             }
         }
     }

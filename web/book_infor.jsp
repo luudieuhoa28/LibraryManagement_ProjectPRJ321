@@ -38,6 +38,7 @@
                 <td>${param.exportYear}</td>
                 <input type="hidden" name="exportYear" value="${param.exportYear}"/>
                 <td>${requestScope.AVAILABLE}</td>
+                <%--AVAILABLE from AddToCardController--%>
                 <input type="hidden" name="available" value="${requestScope.AVAILABLE}"/>
                 <td><input type="text" name="quantityInCart" value="${requestScope.NUM_IN_CARD}"/></td>
                 <input type="hidden" name="txtSearch" value="${param.txtSearch}"/>
