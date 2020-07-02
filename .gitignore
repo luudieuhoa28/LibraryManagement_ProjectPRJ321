@@ -2,5 +2,8 @@ build
 dist
 .vscode
 .idea
-nbproject
+nbproject/
 src/java/dbutils/DBUtils.java
+
+
+
