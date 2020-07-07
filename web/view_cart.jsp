@@ -50,7 +50,7 @@
                 </tbody>
             </table>
             <p>${requestScope.MESSAGE_CART}</p>
-            <a href="BorrowBookController">Borrow</a>
+            <a href="MainController?btnAction=Borrow">Borrow</a>
 
         </c:if>
     </c:if>

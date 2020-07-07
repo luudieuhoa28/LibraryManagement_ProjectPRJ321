@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.sun.activation.registries.LogSupport.log;
+import dtos.BorrowedBook;
 
 /**
  *
@@ -32,7 +33,7 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT book_id, book_name, author, publisher, total_books, available_books, year_export "
+                String sql = "SELECT book_id, book_name, author, publisher, total_books, available_books, year_export, status "
                         + "FROM Book "
                         + "WHERE book_name like '%" + txtSearch + "%'";
                 preparedStatement = conn.prepareStatement(sql);
@@ -45,7 +46,8 @@ public class BookDAO {
                     int tolalBook = resultSet.getInt("total_books");
                     int availableBook = resultSet.getInt("available_books");
                     int yearExport = resultSet.getInt("year_export");
-                    BookDTO bookDTO = new BookDTO(bookId, bookName, author, publisher, tolalBook, availableBook, yearExport, 0);
+                    boolean isExisted = resultSet.getBoolean("status");
+                    BookDTO bookDTO = new BookDTO(bookId, bookName, author, publisher, tolalBook, availableBook, yearExport, 0, isExisted);
                     listBook.add(bookDTO);
                 }
             }
@@ -102,13 +104,15 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "DELETE Book WHERE book_id = ?";
+                String sql = "UPDATE Book "
+                        + "SET status = 0 "
+                        + "WHERE book_id = ?";
                 preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setString(1, bookId);
-                preparedStatement.executeQuery();
+                preparedStatement.executeUpdate();
             }
         } catch (Exception e) {
-            log(e.toString());
+            System.out.println("Delete Book " + e);
         } finally {
             if (conn != null) {
                 conn.close();
@@ -125,8 +129,8 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "INSERT INTO Book(book_id, book_name, author, publisher, total_books, available_books, year_export) "
-                        + "VALUES (?,?,?,?,?,?,?)";
+                String sql = "INSERT INTO Book(book_id, book_name, author, publisher, total_books, available_books, year_export, status) "
+                        + "VALUES (?,?,?,?,?,?,?,?)";
                 preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setString(1, bookDTO.getBookId());
                 preparedStatement.setString(2, bookDTO.getBookName());
@@ -135,6 +139,7 @@ public class BookDAO {
                 preparedStatement.setInt(5, bookDTO.getTotalBook());
                 preparedStatement.setInt(6, bookDTO.getTotalBook());
                 preparedStatement.setString(7, bookDTO.getYearOfExport() + "");
+                preparedStatement.setBoolean(8, true);
                 preparedStatement.executeQuery();
             }
         } catch (SQLException e) {
@@ -156,15 +161,20 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
+                conn.setAutoCommit(false);
                 String sql = "UPDATE Book "
                         + "SET available_books = available_books - ? "
                         + "WHERE book_id = ?";
+
                 for (OrderDetailDTO orderDetailDTO : listDetail) {
                     preparedStatement = conn.prepareStatement(sql);
+
                     preparedStatement.setInt(1, orderDetailDTO.getQuantity());
                     preparedStatement.setString(2, orderDetailDTO.getBookId());
                     preparedStatement.executeUpdate();
                 }
+                conn.commit();
+                conn.setAutoCommit(true);
             }
 
         } catch (Exception e) {
@@ -185,6 +195,7 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
+
                 String sql = "UPDATE Book "
                         + "SET available_books = available_books - ? "
                         + "WHERE book_id = ?";
@@ -203,6 +214,75 @@ public class BookDAO {
                 preparedStatement.close();
             }
         }
+    }
+
+    public static void updateListAvailable(List<BorrowedBook> listBorrowedBook) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Book "
+                        + "SET available_books = available_books + ? "
+                        + "WHERE book_id = ?";
+                preparedStatement = conn.prepareStatement(sql);
+                for (BorrowedBook borrowedBook : listBorrowedBook) {
+                    preparedStatement.setInt(1, borrowedBook.getBorrowedQuantity());
+                    preparedStatement.setString(2, borrowedBook.getBookId());
+                    preparedStatement.executeUpdate();
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    public static BookDTO getBook(String bookId) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        BookDTO bookDTO = null;
+        ResultSet resultSet = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "SELECT book_name, author, publisher, total_books, available_books, year_export "
+                        + "FROM Book "
+                        + "WHERE book_id = ?";
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, bookId);
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    String bookName = resultSet.getString("book_name");
+                    String author = resultSet.getString("author");
+                    String publisher = resultSet.getString("publisher");
+                    int totalBook = resultSet.getInt("total_books");
+                    int available = resultSet.getInt("available_books");
+                    int yearExport = resultSet.getInt("year_export");
+                    bookDTO = new BookDTO(bookId, bookName, author, publisher, totalBook, available, yearExport);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (resultSet != null) {
+                resultSet.close();
+            }
+        }
+        return bookDTO;
     }
 
 }

@@ -36,13 +36,14 @@ public class OrderDAO {
                         + "VALUES (?,?,?,?);";
                 preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, orderDTO.getUserID());
-                String bdate = orderDTO.getBorrowDate();
                 preparedStatement.setString(2, orderDTO.getBorrowDate());
-                String rDate = orderDTO.getReturnDate();
                 preparedStatement.setString(3, orderDTO.getReturnDate());
                 preparedStatement.setBoolean(4, false);
+<<<<<<< HEAD
                 System.out.println(preparedStatement);
                 System.out.println(preparedStatement.toString());
+=======
+>>>>>>> fb5373301885c3498ca3d72493f441e975834842
                 preparedStatement.executeUpdate();
                 rs = preparedStatement.getGeneratedKeys();
                 if (rs.next()) {
@@ -71,9 +72,14 @@ public class OrderDAO {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
+<<<<<<< HEAD
 
             mapOrder = new HashMap<>();
             conn = utils.DBUtils.getConnection();
+=======
+            mapOrder = new HashMap<>();
+            conn = dbutils.DBUtils.getConnection();
+>>>>>>> fb5373301885c3498ca3d72493f441e975834842
             if (conn != null) {
                 String sql = "SELECT borrow_order_id, borrow_date, return_date, is_returned "
                         + "FROM Borrow_Order "
@@ -119,10 +125,17 @@ public class OrderDAO {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
+<<<<<<< HEAD
             conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "UPDATE Borrow_Order "
                         + "SET is_returned = 1"
+=======
+            conn = dbutils.DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE Borrow_Order "
+                        + "SET is_returned = 1 "
+>>>>>>> fb5373301885c3498ca3d72493f441e975834842
                         + "WHERE borrow_order_id = ?";
                 preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setInt(1, orderId);

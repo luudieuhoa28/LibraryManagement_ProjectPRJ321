@@ -9,6 +9,10 @@ import daos.BorrowedBookDAO;
 import daos.OrderDAO;
 import dtos.BorrowedBook;
 import dtos.OrderDTO;
+<<<<<<< HEAD
+=======
+import dtos.UserDTO;
+>>>>>>> fb5373301885c3498ca3d72493f441e975834842
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -42,12 +46,21 @@ public class ShowListBorrowedBookController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = GET_lIST_BOOK_ERROR;
         try {
+<<<<<<< HEAD
             String userId = request.getParameter("userId");
+=======
+            HttpSession session = request.getSession();
+            UserDTO userDTO = (UserDTO) session.getAttribute("USER_DTO");
+            String userId = userDTO.getUserId();
+>>>>>>> fb5373301885c3498ca3d72493f441e975834842
             Map<Integer, OrderDTO> mapOrder = OrderDAO.getListOrder(userId);
             if (mapOrder != null) {
                 Map<Integer, List<BorrowedBook>> mapBorrowedBook = BorrowedBookDAO.getBorrowBook(mapOrder);
                 if (mapBorrowedBook != null) {
+<<<<<<< HEAD
                     HttpSession session = request.getSession();
+=======
+>>>>>>> fb5373301885c3498ca3d72493f441e975834842
                     session.setAttribute("MAP_BORROWED_BOOK", mapBorrowedBook);
                     session.setAttribute("MAP_ORDER", mapOrder);
                     url = GET_lIST_BOOK_SUCCESS;

@@ -5,7 +5,11 @@
  */
 package daos;
 
+<<<<<<< HEAD
 //import com.sun.javafx.scene.control.skin.VirtualFlow;
+=======
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+>>>>>>> fb5373301885c3498ca3d72493f441e975834842
 import dtos.BorrowedBook;
 import dtos.OrderDTO;
 import dtos.OrderDetailDTO;
@@ -33,7 +37,11 @@ public class BorrowedBookDAO {
         Map<Integer, List<BorrowedBook>> mapBorrowBook = null;
         try {
             mapBorrowBook = new HashMap<>();
+<<<<<<< HEAD
             conn = utils.DBUtils.getConnection();
+=======
+            conn = dbutils.DBUtils.getConnection();
+>>>>>>> fb5373301885c3498ca3d72493f441e975834842
             if (conn != null) {
                 String sql = "SELECT Book.book_id, Book.book_name, Order_Detail.quantity "
                         + "FROM Book, Order_Detail "

@@ -44,30 +44,32 @@
                         <tbody>
                             <c:forEach var="book"  varStatus="counter" items="${sessionScope.LIST_SEARCH_BOOK}">
                             <form action="MainController">
-                                <tr>
-                                    <td>${counter.count}</td>
-                                    <td>${book.bookId}</td>
-                                <input type="hidden" name="bookId" value="${book.bookId}"/>
-                                <td>${book.bookName}</td>
-                                <input type="hidden" name="bookName" value="${book.bookName}"/>
-                                <td>${book.author}</td>
-                                <input type="hidden" name="bookAuthor" value="${book.author}"/>
-                                <td>${book.publisher}</td>
-                                <input type="hidden" name="bookPublisher" value="${book.publisher}"/>
-                                <td>${book.yearOfExport}</td>
-                                <input type="hidden" name="yearOfExport" value="${book.yearOfExport}"/>
-                                <td>${book.totalBook}</td>
-                                <input type="hidden" name="bookTotal" value="${book.totalBook}"/>
-                                <td>${book.availableBook}</td>
-                                <input type="hidden" name="bookAvailable" value="${book.availableBook}"/>
-                                <input type="hidden" name="txtSearch" value="${param.txtSearch}"/>
-                                <td>
-                                    <input type="submit" name="btnAction" value="Update Page"/>
-                                </td>
-                                <td>
-                                    <input type="submit" name="btnAction" value="Delete Book"/>
-                                </td>
-                                </tr>
+                                <c:if test="${book.isExisted}">
+                                    <tr>
+                                        <td>${counter.count}</td>
+                                        <td>${book.bookId}</td>
+                                    <input type="hidden" name="bookId" value="${book.bookId}"/>
+                                    <td>${book.bookName}</td>
+                                    <input type="hidden" name="bookName" value="${book.bookName}"/>
+                                    <td>${book.author}</td>
+                                    <input type="hidden" name="bookAuthor" value="${book.author}"/>
+                                    <td>${book.publisher}</td>
+                                    <input type="hidden" name="bookPublisher" value="${book.publisher}"/>
+                                    <td>${book.yearOfExport}</td>
+                                    <input type="hidden" name="yearOfExport" value="${book.yearOfExport}"/>
+                                    <td>${book.totalBook}</td>
+                                    <input type="hidden" name="bookTotal" value="${book.totalBook}"/>
+                                    <td>${book.availableBook}</td>
+                                    <input type="hidden" name="bookAvailable" value="${book.availableBook}"/>
+                                    <input type="hidden" name="txtSearch" value="${param.txtSearch}"/>
+                                    <td>
+                                        <input type="submit" name="btnAction" value="Update Page"/>
+                                    </td>
+                                    <td>
+                                        <input type="submit" name="btnAction" value="Delete Book"/>
+                                    </td>
+                                    </tr>
+                                </c:if>
                             </form>
                         </c:forEach>
                     </tbody>

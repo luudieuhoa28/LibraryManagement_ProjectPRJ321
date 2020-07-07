@@ -21,6 +21,7 @@ public class BookDTO implements Serializable {
     private int availableBook;
     private int yearOfExport;
     private int numInCart;
+    private boolean isExisted;
 
     public BookDTO() {
     }
@@ -42,6 +43,38 @@ public class BookDTO implements Serializable {
         this.numInCart = numInCart;
         this.availableBook = availableBook;
     }
+
+    public BookDTO(String bookId, String bookName, String author, String publisher, int totalBook, int availableBook, int yearOfExport) {
+        this.bookId = bookId;
+        this.bookName = bookName;
+        this.author = author;
+        this.publisher = publisher;
+        this.totalBook = totalBook;
+        this.availableBook = availableBook;
+        this.yearOfExport = yearOfExport;
+    }
+
+    public BookDTO(String bookId, String bookName, String author, String publisher, int totalBook, int availableBook, int yearOfExport, int numInCart, boolean isExisted) {
+        this.bookId = bookId;
+        this.bookName = bookName;
+        this.author = author;
+        this.publisher = publisher;
+        this.totalBook = totalBook;
+        this.availableBook = availableBook;
+        this.yearOfExport = yearOfExport;
+        this.numInCart = numInCart;
+        this.isExisted = isExisted;
+    }
+
+    public boolean isIsExisted() {
+        return isExisted;
+    }
+
+    public void setIsExisted(boolean isExisted) {
+        this.isExisted = isExisted;
+    }
+    
+    
 
     public int getNumInCart() {
         return numInCart;

@@ -46,7 +46,7 @@ public class UTF8_Filter implements Filter {
         System.out.println("#INFO " + new Date() + " - ServletPath :" + servletPath //
                 + ", URL =" + req.getRequestURL());
  
-        // Cho phép request được đi tiếp. (Vượt qua Filter này).
+        // Allow request go ahead. (Pass this Filter).
         chain.doFilter(request, response);
     }
  
