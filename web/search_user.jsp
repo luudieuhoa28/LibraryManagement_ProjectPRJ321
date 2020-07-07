@@ -76,6 +76,7 @@
         ${requestScope.BORROW_MESSAGE}
         ${requestScope.INFOR_MESSAGE}
         <a href="MainController?btnAction=ListBorrowedBook&txtSearch=${param.txtSearch}">View Borrowed Book</a>
+        <a href="">Edit information</a>
     </c:if>
 </body>
 </html>
