@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Filter;
+package utils;
 
 /**
  *
@@ -39,7 +39,12 @@ public class UTF8_Filter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
  
-        request.setCharacterEncoding("UTF-8");
+        HttpServletRequest req = (HttpServletRequest) request;
+ 
+        String servletPath = req.getServletPath();
+ 
+        System.out.println("#INFO " + new Date() + " - ServletPath :" + servletPath //
+                + ", URL =" + req.getRequestURL());
  
         // Cho phép request được đi tiếp. (Vượt qua Filter này).
         chain.doFilter(request, response);

@@ -23,7 +23,7 @@ public class UserDAO {
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "SELECT Library_User.library_user_id, Library_User.password, Role_User.role_name, Library_User.name, Library_User.phone, Library_User.gender, Library_User.address "
                         + "FROM Library_User, Role_User "
@@ -63,7 +63,7 @@ public class UserDAO {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "INSERT INTO Library_User(library_user_id, password, role_id, name, gender, phone, address) "
                         + "VALUES (?,?,?,?,?,?,?)";

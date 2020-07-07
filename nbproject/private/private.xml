@@ -4,14 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/src/java/controller/MainController.java</file>
-            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/src/java/dbutils/DBUtils.java</file>
-            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/web/register.jsp</file>
-            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/src/java/controller/RegisterController.java</file>
-            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/src/java/controller/LoginController.java</file>
-            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/nbproject/build-impl.xml</file>
             <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/web/login.jsp</file>
-            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/src/java/Filter/UTF8_Filter.java</file>
+            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/src/java/utils/UTF8_Filter.java</file>
+            <file>file:/C:/Users/Admins/Desktop/Java%20Web/LibraryManagement_ProjectPRJ321/web/META-INF/context.xml</file>
         </group>
     </open-files>
 </project-private>

@@ -5,7 +5,7 @@
  */
 package daos;
 
-import dbutils.DBUtils;
+import utils.DBUtils;
 import dtos.BookDTO;
 import dtos.OrderDetailDTO;
 

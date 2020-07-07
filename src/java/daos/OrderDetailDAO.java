@@ -27,7 +27,7 @@ public class OrderDetailDAO {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "INSERT INTO Order_Detail(borrow_order_id, book_id, quantity) "
                         + "VALUES (?,?,?)";
@@ -54,7 +54,7 @@ public class OrderDetailDAO {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 conn.setAutoCommit(false);
                 String sql = "INSERT INTO Order_Detail(borrow_order_id, book_id, quantity) "
