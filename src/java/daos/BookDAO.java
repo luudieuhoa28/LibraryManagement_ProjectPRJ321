@@ -253,7 +253,7 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT book_name, author, publisher, total_books, available_books, year_export "
+                String sql = "SELECT book_name, author, publisher, total_books, available_books, year_export, status "
                         + "FROM Book "
                         + "WHERE book_id = ?";
                 preparedStatement = conn.prepareStatement(sql);
@@ -266,7 +266,8 @@ public class BookDAO {
                     int totalBook = resultSet.getInt("total_books");
                     int available = resultSet.getInt("available_books");
                     int yearExport = resultSet.getInt("year_export");
-                    bookDTO = new BookDTO(bookId, bookName, author, publisher, totalBook, available, yearExport);
+                    boolean isExisted = resultSet.getBoolean("status");
+                    bookDTO = new BookDTO(bookId, bookName, author, publisher, totalBook, available, yearExport, yearExport, isExisted);
                 }
             }
         } catch (Exception e) {
