@@ -8,41 +8,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<<<<<<< HEAD
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Author</th>
-                    <th>Publisher</th>
-                    <th>Export Year</th>
-                    <th>Available</th>
-                    <th>Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-            <form action="MainController" method="post">
-                <tr>
-                    <td>${param.bookId}</td>
-                <input type="hidden" name="bookId" value="${param.bookId}"/>
-                <td>${param.bookName}</td>
-                <input type="hidden" name="bookName" value="${param.bookName}"/>
-                <td>${param.author}</td>
-                <input type="hidden" name="author" value="${param.author}"/>
-                <td>${param.publisher}</td>
-                <input type="hidden" name="publisher" value="${param.publisher}"/>
-                <td>${param.exportYear}</td>
-                <input type="hidden" name="exportYear" value="${param.exportYear}"/>
-                <td>${requestScope.AVAILABLE}</td>
-                <%--AVAILABLE from AddToCardController--%>
-                <input type="hidden" name="available" value="${requestScope.AVAILABLE}"/>
-=======
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>JSP Page</title>
@@ -77,7 +42,6 @@
                 <input type="hidden" name="exportYear" value="${bookDTO.yearOfExport}"/>
                 <td>${bookDTO.availableBook}</td>
                 <input type="hidden" name="available" value="${bookDTO.availableBook}"/>
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
                 <td><input type="text" name="quantityInCart" value="${requestScope.NUM_IN_CARD}"/></td>
                 <input type="hidden" name="txtSearch" value="${param.txtSearch}"/>
                 <c:if test="${requestScope.AVAILABLE > 0}">

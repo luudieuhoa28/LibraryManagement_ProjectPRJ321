@@ -26,11 +26,7 @@ import javax.servlet.http.HttpSession;
 public class AddToCardController extends HttpServlet {
 
     public final static String ADD_TO_CARD_SEARCH = "SearchController";
-<<<<<<< HEAD
-    public final static String ADD_TO_CARD_INFOR = "ShowBookInfoController";
-=======
     public final static String ADD_TO_CARD_INFOR = "ShowBookInforController";
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
     public final static String ADD_TO_CARD_ERROR = "error_page.jsp";
 
     /**
@@ -49,29 +45,6 @@ public class AddToCardController extends HttpServlet {
         try {
             //get bookId, bookName, available to create new book to add to cart
             String bookId = request.getParameter("bookId");
-<<<<<<< HEAD
-            String bookName = request.getParameter("bookName");
-            int availableBook = Integer.parseInt(request.getParameter("available"));
-            HttpSession session = request.getSession();
-            BookDTO bookDTO = new BookDTO(bookId, bookName, 1, availableBook);
-            CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
-            if (cartDTO == null) {
-                cartDTO = new CartDTO("", null);
-            }
-            //this is from book_infor.jsp
-            if (request.getParameter("quantityInCart") != null) {
-                int numInCart = 0;
-                try {
-                    numInCart = Integer.parseInt(request.getParameter("quantityInCart"));
-                    if (numInCart > 0 && numInCart <= availableBook) {
-                        if (cartDTO.addToCard(bookDTO, numInCart)) {
-                            session.setAttribute("CART", cartDTO);
-                            request.setAttribute("MESSAGE_CART", "You add " + bookName + " successfully!!!");
-                            //use in book_info.jsp
-                            request.setAttribute("NUM_IN_CARD", numInCart);
-                        } else {
-                            request.setAttribute("MESSAGE_CART", "The number of " + bookName + " is limmited!!!");
-=======
             BookDTO bookDTO = BookDAO.getBook(bookId);
             if (bookDTO != null) {
                 if (bookDTO.isIsExisted()) {
@@ -102,28 +75,9 @@ public class AddToCardController extends HttpServlet {
                             request.setAttribute("MESSAGE_CART", "This must be an number!!!");
                         } finally {
                             url = ADD_TO_CARD_INFOR;
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
                         }
                         //this is from search_user.jsp    
                     } else {
-<<<<<<< HEAD
-                        request.setAttribute("MESSAGE_CART", "The number of " + bookName + " is limmited!!!");
-                    }
-                } catch (Exception e) {
-                    request.setAttribute("MESSAGE_CART", "This must be an number!!!");
-                } finally {
-                    url = ADD_TO_CARD_INFOR;
-                }
-            //this is from search_user.jsp    
-            } else {
-                int numInCart = 0;
-                //get the number of this book was in cart
-                if (cartDTO.getCart() != null) {
-                    if (cartDTO.getCart().containsKey(bookId)) {
-                        numInCart = cartDTO.getCart().get(bookId).getNumInCart();
-                    }
-                }
-=======
                         int numInCart = 0;
                         //get the number of this book was in cart
                         if (cartDTO.getCart() != null) {
@@ -131,7 +85,6 @@ public class AddToCardController extends HttpServlet {
                                 numInCart = cartDTO.getCart().get(bookId).getNumInCart();
                             }
                         }
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
 
                         if (numInCart == bookDTO.getAvailableBook()) {
                             request.setAttribute("MESSAGE_CART", "The number of " + bookDTO.getBookName() + " is limmited!!!");

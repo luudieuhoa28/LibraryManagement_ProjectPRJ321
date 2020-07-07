@@ -5,11 +5,6 @@
  */
 package controller;
 
-<<<<<<< HEAD
-import daos.OrderDAO;
-import java.io.IOException;
-import java.io.PrintWriter;
-=======
 import daos.BookDAO;
 import daos.OrderDAO;
 import dtos.BookDTO;
@@ -18,15 +13,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-<<<<<<< HEAD
-=======
 import javax.servlet.http.HttpSession;
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
 
 /**
  *
@@ -53,10 +44,6 @@ public class ReturnBookController extends HttpServlet {
         try {
             int orderId = Integer.parseInt(request.getParameter("orderId"));
             OrderDAO.setIsReTurned(orderId);
-<<<<<<< HEAD
-            url = RETURN_BOOK_SUCCESS;
-        } catch (Exception e) {
-=======
             HttpSession session = request.getSession();
             Map<Integer, List<BorrowedBook>> mapBorrowedBook = (Map<Integer, List<BorrowedBook>>) session.getAttribute("MAP_BORROWED_BOOK");
             List<BorrowedBook> listBorrowedBook = mapBorrowedBook.get(orderId);
@@ -67,7 +54,6 @@ public class ReturnBookController extends HttpServlet {
             url = RETURN_BOOK_SUCCESS;
         } catch (Exception e) {
             System.out.println(e);
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

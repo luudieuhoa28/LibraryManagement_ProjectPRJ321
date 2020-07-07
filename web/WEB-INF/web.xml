@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-<<<<<<< HEAD
     <!--    <filter>
         <filter-name>UTF8</filter-name>
         <filter-class>utils.UTF8_Filter</filter-class>
-=======
     <filter>
         <filter-name>UTF8_Filter</filter-name>
         <filter-class>Filter.UTF8_Filter</filter-class>
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
     </filter>
     <filter-mapping>
         <filter-name>UTF8</filter-name>
@@ -75,13 +72,10 @@
         <servlet-class>controller.ReturnBookController</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
         <servlet-name>LoginGoogleController</servlet-name>
         <servlet-class>controller.LoginGoogleController</servlet-class>
-=======
         <servlet-name>ShowBookInforController</servlet-name>
         <servlet-class>controller.ShowBookInforController</servlet-class>
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
     </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
@@ -144,13 +138,10 @@
         <url-pattern>/ReturnBookController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>LoginGoogleController</servlet-name>
         <url-pattern>/googlecallback</url-pattern>
-=======
         <servlet-name>ShowBookInforController</servlet-name>
         <url-pattern>/ShowBookInforController</url-pattern>
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
     </servlet-mapping>
     <session-config>
         <session-timeout>

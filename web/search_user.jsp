@@ -74,12 +74,8 @@
         <a href="MainController?btnAction=Logout">Logout</a>
         <a href="view_cart.jsp">View Cart</a>
         ${requestScope.BORROW_MESSAGE}
-<<<<<<< HEAD
-        <a href="MainController?btnAction=ListBorrowedBook&userId=${userDTO.userId}">View Borrowed Book</a>
-=======
         ${requestScope.INFOR_MESSAGE}
         <a href="MainController?btnAction=ListBorrowedBook&txtSearch=${param.txtSearch}">View Borrowed Book</a>
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
     </c:if>
 </body>
 </html>

@@ -57,31 +57,16 @@ public class BorrowBookController extends HttpServlet {
             HttpSession session = request.getSession();
             UserDTO userDTO = (UserDTO) session.getAttribute("USER_DTO");
             String userId = userDTO.getUserId();
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
             //get current date
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             Date currentDate = new Date();
             String borrowDate = dateFormat.format(currentDate);
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
             //get return date (1 month later)
             Calendar c = Calendar.getInstance();
             c.setTime(currentDate);
             c.add(Calendar.MONTH, 1);
             Date currentDatePlusOne = c.getTime();
             String returnDate = dateFormat.format(currentDatePlusOne);
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
             //Insert into Order table and get order_id
             OrderDTO orderDTO = new OrderDTO(userId, borrowDate, returnDate);
 
@@ -89,20 +74,6 @@ public class BorrowBookController extends HttpServlet {
             //this action get from search_user or book_infor
             if (request.getParameter("bookId") != null) {
                 String bookId = request.getParameter("bookId");
-<<<<<<< HEAD
-                //this is from book_infor
-                if (request.getParameter("quantityInCart") != null) {
-                    try {
-                        quantity = Integer.parseInt(request.getParameter("quantityInCart"));
-                        int available = Integer.parseInt((String) request.getParameter("available"));
-                        if (quantity <= available && quantity > 0) {
-                            //used in BookInfoController
-                            request.setAttribute("AVAILABLE", available - quantity);
-                            OrderDetailDTO orderDetailDTO = new OrderDetailDTO(orderId, bookId, quantity);
-                            OrderDetailDAO.addOrderDetail(orderDetailDTO);
-                            BookDAO.updateAvailable(bookId, quantity);
-                            request.setAttribute("BORROW_MESSAGE", "Borrow successfully!!!");
-=======
                 BookDTO bookDTO = BookDAO.getBook(bookId);
                 if (bookDTO != null) {
                     if (bookDTO.isIsExisted()) {
@@ -125,7 +96,6 @@ public class BorrowBookController extends HttpServlet {
                             }
                             url = BORROW_BOOK_CART_INFO;
                             //this is from search_user
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
                         } else {
                             if (quantity <= bookDTO.getAvailableBook()) {
                                 int orderId = OrderDAO.addOrder(orderDTO);
@@ -142,30 +112,18 @@ public class BorrowBookController extends HttpServlet {
                         request.setAttribute("BORROW_MESSAGE", "The books do not exist anymore!!!");
                         url = BORROW_BOOK_CART_SEARCH;
                     }
-<<<<<<< HEAD
-                    url = BORROW_BOOK_CART_INFO;
-                //this is from search_user
-=======
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
                 } else {
                     url = BORROW_BOOK_CART_SEARCH;
                     request.setAttribute("BORROW_MESSAGE", "The book is not available!!!");
                 }
-<<<<<<< HEAD
-            //this action get from view_cart.jsp
-=======
                 //this action get from view_cart.jsp
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
             } else {
                 CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
                 if (cartDTO != null) {
                     Set setKey = cartDTO.getCart().keySet();
                     Iterator it = setKey.iterator();
                     List<OrderDetailDTO> listDetail = new ArrayList<>();
-<<<<<<< HEAD
-=======
                     boolean check = true;
->>>>>>> fb5373301885c3498ca3d72493f441e975834842
                     //get listDetail form CART
                     while (it.hasNext()) {
                         String bookId = (String) it.next();
