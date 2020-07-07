@@ -38,30 +38,32 @@
                     <tbody>
                         <c:forEach var="book"  varStatus="counter" items="${sessionScope.LIST_SEARCH_BOOK}">
                         <form action="MainController">
-                            <tr>
-                                <td>${counter.count}</td>
-                                <td>${book.bookId}</td>
-                            <input type="hidden" name="bookId" value="${book.bookId}"/>
-                                <td><a href="ShowBookInfoController?bookName=${book.bookName}&bookId=${book.bookId}&author=${book.author}&publisher=${book.publisher}&exportYear=${book.yearOfExport}&available=${book.availableBook}&txtSearch=${param.txtSearch}">${book.bookName}</a></td>
-                            <input type="hidden" name="bookName" value="${book.bookName}"/>
-                            <c:if test="${book.availableBook > 0}">
-                                <c:set var="isCheck" value="checked"/>
-                                <c:set var="isDisabled" value=""/>
+                            <c:if test="${book.isExisted}">
+                                <tr>
+                                    <td>${counter.count}</td>
+                                    <td>${book.bookId}</td>
+                                <input type="hidden" name="bookId" value="${book.bookId}"/>
+                                <td><a href="ShowBookInforController?bookId=${book.bookId}&txtSearch=${param.txtSearch}">${book.bookName}</a></td>
+                                <input type="hidden" name="bookName" value="${book.bookName}"/>
+                                <c:if test="${book.availableBook > 0}">
+                                    <c:set var="isCheck" value="checked"/>
+                                    <c:set var="isDisabled" value=""/>
+                                </c:if>
+                                <c:if test="${book.availableBook == 0}">
+                                    <c:set var="isCheck" value=""/>
+                                    <c:set var="isDisabled" value="disabled"/>
+                                </c:if>
+                                <td><input type="checkbox" disabled ${isCheck}/></td>
+                                <input type="hidden" name="available" value="${book.availableBook}"/>
+                                <input type="hidden" name="txtSearch" value="${param.txtSearch}"/>
+                                <td>
+                                    <input type="submit" name="btnAction" value="Add to cart" ${isDisabled}/>
+                                </td>
+                                <td>
+                                    <input type="submit" name="btnAction" value="Borrow" ${isDisabled}/>
+                                </td>
+                                </tr>
                             </c:if>
-                            <c:if test="${book.availableBook == 0}">
-                                <c:set var="isCheck" value=""/>
-                                <c:set var="isDisabled" value="disabled"/>
-                            </c:if>
-                            <td><input type="checkbox" disabled ${isCheck}/></td>
-                            <input type="hidden" name="available" value="${book.availableBook}"/>
-                            <input type="hidden" name="txtSearch" value="${param.txtSearch}"/>
-                            <td>
-                                <input type="submit" name="btnAction" value="Add to cart" ${isDisabled}/>
-                            </td>
-                            <td>
-                                <input type="submit" name="btnAction" value="Borrow" ${isDisabled}/>
-                            </td>
-                            </tr>
                         </form>
                     </c:forEach>
                 </tbody>
@@ -72,7 +74,8 @@
         <a href="MainController?btnAction=Logout">Logout</a>
         <a href="view_cart.jsp">View Cart</a>
         ${requestScope.BORROW_MESSAGE}
-        <a href="MainController?btnAction=ListBorrowedBook&userId=${userDTO.userId}">View Borrowed Book</a>
+        ${requestScope.INFOR_MESSAGE}
+        <a href="MainController?btnAction=ListBorrowedBook&txtSearch=${param.txtSearch}">View Borrowed Book</a>
     </c:if>
 </body>
 </html>

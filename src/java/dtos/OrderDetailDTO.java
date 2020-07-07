@@ -23,6 +23,13 @@ public class OrderDetailDTO {
         this.quantity = quantity;
     }
 
+    public OrderDetailDTO(String bookId, int quantity) {
+        this.bookId = bookId;
+        this.quantity = quantity;
+    }
+    
+    
+
     public int getOrderId() {
         return orderId;
     }

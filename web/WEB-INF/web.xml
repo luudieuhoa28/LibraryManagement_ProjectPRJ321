@@ -68,6 +68,10 @@
         <servlet-name>ReturnBookController</servlet-name>
         <servlet-class>controller.ReturnBookController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowBookInforController</servlet-name>
+        <servlet-class>controller.ShowBookInforController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>ReturnBookController</servlet-name>
         <url-pattern>/ReturnBookController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowBookInforController</servlet-name>
+        <url-pattern>/ShowBookInforController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

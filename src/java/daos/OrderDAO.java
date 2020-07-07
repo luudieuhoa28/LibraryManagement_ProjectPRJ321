@@ -36,13 +36,9 @@ public class OrderDAO {
                         + "VALUES (?,?,?,?);";
                 preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, orderDTO.getUserID());
-                String bdate = orderDTO.getBorrowDate();
                 preparedStatement.setString(2, orderDTO.getBorrowDate());
-                String rDate = orderDTO.getReturnDate();
                 preparedStatement.setString(3, orderDTO.getReturnDate());
                 preparedStatement.setBoolean(4, false);
-                System.out.println(preparedStatement);
-                System.out.println(preparedStatement.toString());
                 preparedStatement.executeUpdate();
                 rs = preparedStatement.getGeneratedKeys();
                 if (rs.next()) {
@@ -71,7 +67,6 @@ public class OrderDAO {
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
-
             mapOrder = new HashMap<>();
             conn = dbutils.DBUtils.getConnection();
             if (conn != null) {
@@ -122,7 +117,7 @@ public class OrderDAO {
             conn = dbutils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "UPDATE Borrow_Order "
-                        + "SET is_returned = 1"
+                        + "SET is_returned = 1 "
                         + "WHERE borrow_order_id = ?";
                 preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setInt(1, orderId);

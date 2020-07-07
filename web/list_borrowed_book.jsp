@@ -43,10 +43,15 @@
                 </table>
                 <form action="MainController" method="post">
                     <input type="hidden" name="orderId" value="${mapItem.key}"/>
+                    <input type="hidden" name="txtSearch" value="${param.txtSearch}"/>
                     <input type="submit" name="btnAction" value="Return Books"/>
                 </form>
 
             </c:forEach>
+            <c:if test="${sessionScope.MAP_BORROWED_BOOK.isEmpty()}">
+                <p>You have not borrowed any books yet!!!</p>
+            </c:if>
         </c:if>
+                <a href="SearchController?txtSearch=${param.txtSearch}">Search</a>       
     </body>
 </html>

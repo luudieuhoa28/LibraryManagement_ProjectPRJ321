@@ -5,6 +5,8 @@
  */
 package controller;
 
+import daos.BookDAO;
+import dtos.BookDTO;
 import dtos.CartDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,20 +39,31 @@ public class UpdateCartController extends HttpServlet {
         String url = UPDATE_CART;
         try {
             String bookId = request.getParameter("bookId");
-            try {
-                int numInCart = Integer.parseInt(request.getParameter("numInCart"));
-                HttpSession session = request.getSession();
-                CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
-                int availableBook = cartDTO.getCart().get(bookId).getAvailableBook();
-                if (availableBook >= numInCart) {
-                    cartDTO.updateQuantity(bookId, numInCart);
-                } else {
-                    request.setAttribute("MESSAGE_CART", "This have only " + availableBook + " available books!!!");
-                }
+            BookDTO bookDTO = BookDAO.getBook(bookId);
+            if (bookDTO != null) {
+                if (bookDTO.isIsExisted()) {
+                    try {
+                        int numInCart = Integer.parseInt(request.getParameter("numInCart"));
+                        HttpSession session = request.getSession();
+                        CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
+                        int availableBook = bookDTO.getAvailableBook();
+                        if (availableBook >= numInCart) {
+                            cartDTO.updateQuantity(bookId, numInCart);
+                        } else {
+                            request.setAttribute("MESSAGE_CART", "This have only " + availableBook + " available books!!!");
+                        }
 
-            } catch (Exception e) {
+                    } catch (Exception e) {
+                    }
+                } else {
+                    request.setAttribute("MESSAGE_CART", "This book does not exist anymore!!!");
+                }
+            } else {
+                request.setAttribute("MESSAGE_CART", "This book does not exist anymore!!!");
             }
+
         } catch (Exception e) {
+            System.out.println("UpdateCartController " + e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
