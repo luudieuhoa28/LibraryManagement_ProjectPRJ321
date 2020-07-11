@@ -76,7 +76,10 @@
         ${requestScope.BORROW_MESSAGE}
         ${requestScope.INFOR_MESSAGE}
         <a href="MainController?btnAction=ListBorrowedBook&txtSearch=${param.txtSearch}">View Borrowed Book</a>
-        <a href="">Edit information</a>
+        
+        <a href="change_pass_page.jsp">Change password</a>
+        <a href="MainController?btnAction=ViewProfile&userId=${userDTO.userId}&name=${userDTO.name}&cbxGender=${userDTO.gender}&phone=${userDTO.phone}&address=${userDTO.address}">View profile</a>
+<!--        <a href="view_profile_page.jsp">View profile</a>-->
     </c:if>
 </body>
 </html>

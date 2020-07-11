@@ -8,21 +8,21 @@ package controller;
 import daos.UserDAO;
 import dtos.UserDTO;
 import dtos.UserErrorDTO;
-
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class RegisterController extends HttpServlet {
+public class UpDateProfileController extends HttpServlet {
 
-    public static final String REGISTER_SUCCESS = "login.jsp";
-    public static final String REGISTER_ERROR = "register.jsp";
+    public static final String UPDATE_PROFILE_SUCESS = "view_profile_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,61 +36,30 @@ public class RegisterController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = REGISTER_ERROR;
-        UserErrorDTO userErrorDTO = new UserErrorDTO();
+        String url = UPDATE_PROFILE_SUCESS;
         try {
-            boolean isValid = true;
-         //   request.setCharacterEncoding("UTF-8");
+            UserErrorDTO userErrorDTO = new UserErrorDTO();
+            HttpSession session = request.getSession();
+            UserDTO userDTOSession = (UserDTO) session.getAttribute("USER_DTO");
             String userId = request.getParameter("userId");
             String name = request.getParameter("name");
             String gender = request.getParameter("cbxGender");
             String phone = request.getParameter("phone");
             String address = request.getParameter("address");
-            String password = request.getParameter("password");
-            String rePass = request.getParameter("rePassword");
-
-            if (userId.isEmpty()) {
-                userErrorDTO.setUserIdError("User name can not be empty");
-                isValid = false;
-            }
             if (name.isEmpty()) {
                 userErrorDTO.setNameError("Full name can not be empty");
-                isValid = false;
-            }
-            if (!password.endsWith(rePass)) {
-                userErrorDTO.setPasswordError("Password and repassword is not matched");
-                isValid = false;
-            } else if (password.isEmpty()) {
-                userErrorDTO.setPasswordError("Password can not be empty");
-                isValid = false;
-            }
-            request.setAttribute("USER_ID_VALUE", userId);
-            request.setAttribute("NAME_VALUE", name);
-            request.setAttribute("GENDER_VALUE", gender);
-            request.setAttribute("PHONE_VALUE", phone);
-            request.setAttribute("ADDRESS_VALUE", address);
-            request.setAttribute("PASSWORD_VALUE", password);
-            request.setAttribute("RE_PASSWORD_VALUE", rePass);
-
-            if (isValid) {
-                url = REGISTER_SUCCESS;
-                UserDTO userDTO = new UserDTO(userId, password, "US", name, gender, phone, address);
-                UserDAO.registAcc(userDTO);
-
+                request.setAttribute("ERROR_UPDATE", userErrorDTO);
             } else {
-                request.setAttribute("ERROR_ACCOUNT", userErrorDTO);
+                UserDTO userDTO = new UserDTO(userId, "", userDTOSession.getRole(), name, gender, phone, address);
+                UserDAO.updateProfile(userDTO);
+                session.setAttribute("USER_DTO", userDTO);
+                request.setAttribute("MESSAGE_UPDATE", "Update successfully!!!");
             }
-
         } catch (Exception e) {
-            if (e.toString().contains("duplicate")) {
-                userErrorDTO.setUserIdError("This user name existed!!!");
-                request.setAttribute("ERROR_ACCOUNT", userErrorDTO);
-                url = REGISTER_ERROR;
-            }
+            System.out.println("Update Controller " + e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -20,15 +20,15 @@
             Full name: <input type="text" name="name" value="${requestScope.NAME_VALUE}"/></br>
             ${errorRegister.nameError} </br>
             Gender: <select name="cbxGender">
-<%--                <c:set var="strFemale" value="female"/>--%>
-<%--                <c:if test="${requestScope.GENDER_VALUE.equals(strFemale)}">--%>
-<%--                    <c:set var="isFemale" value="true"/>--%>
-<%--                </c:if>--%>
-<%--                <c:if test="${!requestScope.GENDER_VALUE.equals(strFemale)}">--%>
-<%--                    <c:set var="isFemale" value="false"/>--%>
-<%--                </c:if>--%>
-                <option value="male" selected="${!isFemale}">Male</option>
-                <option value="female" selected="${isFemale}">Female</option>
+                <c:set var="strFemale" value="female"/>
+                <c:if test="${requestScope.GENDER_VALUE.equals(strFemale)}">
+                    <c:set var="isFemale" value="selected"/>
+                </c:if>
+                <c:if test="${!requestScope.GENDER_VALUE.equals(strFemale)}">
+                    <c:set var="isFemale" value=""/>
+                </c:if>
+                <option value="male">Male</option>
+                <option value="female" ${isFemale}>Female</option>
             </select><br/>
             Phone: <input type="text" name="phone" value="${requestScope.PHONE_VALUE}"/></br>
             Address: <input type="text" name="address" value="${requestScope.ADDRESS_VALUE}"/></br>

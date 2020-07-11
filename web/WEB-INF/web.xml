@@ -72,6 +72,26 @@
         <servlet-name>ShowBookInforController</servlet-name>
         <servlet-class>controller.ShowBookInforController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordController</servlet-name>
+        <servlet-class>controller.ChangePasswordController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetListUserController</servlet-name>
+        <servlet-class>controller.GetListUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DisableUserController</servlet-name>
+        <servlet-class>controller.DisableUserController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpDateProfileController</servlet-name>
+        <servlet-class>controller.UpDateProfileController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewProfileController</servlet-name>
+        <servlet-class>controller.ViewProfileController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
@@ -135,6 +155,26 @@
     <servlet-mapping>
         <servlet-name>ShowBookInforController</servlet-name>
         <url-pattern>/ShowBookInforController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordController</servlet-name>
+        <url-pattern>/ChangePasswordController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetListUserController</servlet-name>
+        <url-pattern>/GetListUserController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DisableUserController</servlet-name>
+        <url-pattern>/DisableUserController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpDateProfileController</servlet-name>
+        <url-pattern>/UpDateProfileController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewProfileController</servlet-name>
+        <url-pattern>/ViewProfileController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

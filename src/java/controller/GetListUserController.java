@@ -5,25 +5,25 @@
  */
 package controller;
 
-import daos.BookDAO;
-import dtos.BookDTO;
-import dtos.BookErrorDTO;
+import daos.UserDAO;
+import dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class UpdateBookController extends HttpServlet {
+public class GetListUserController extends HttpServlet {
 
-    public static final String UPDATE_SUCCESS = "SearchController";
-    public static final String UPDATE_ERROR = "update_book.jsp";
-    //public static final String UPDATE_ERROR = "error_page.jsp";
+    private static final String GET_LIST_USER_SUCCESS = "list_user.jsp";
+    private static final String GET_LIST_USER_ERROR = "error_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,45 +37,14 @@ public class UpdateBookController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = UPDATE_ERROR;
+        String url = GET_LIST_USER_ERROR;
         try {
-            BookErrorDTO bookErrorDTO = new BookErrorDTO();
-            boolean check = true;
-            String bookId = request.getParameter("bookId");
-            String bookName = request.getParameter("bookName");
-            if (bookName.isEmpty()) {
-                bookErrorDTO.setBookNameError("Name cannot be null!!!");
-                check = false;
-            }
-            String bookAuthor = request.getParameter("bookAuthor");
-            String bookPublisher = request.getParameter("bookPublisher");
-            int yearOfExport = 0;
-            if (!request.getParameter("yearOfExport").equals("")) {
-                try {
-                    yearOfExport = Integer.parseInt(request.getParameter("yearOfExport"));
-                } catch (Exception e) {
-                    bookErrorDTO.setBookYearExError("This must be a number!!!");
-                }
-            }
-            int bookTotal = 0;
-            try {
-                bookTotal = Integer.parseInt(request.getParameter("bookTotal"));
-            } catch (Exception e) {
-                bookErrorDTO.setBookTotalError("This must be a number!!!");
-                check = false;
-            }
-
-            int bookAvailable = Integer.parseInt(request.getParameter("bookAvailable"));
-            if (check) {
-                BookDTO bookDTO = new BookDTO(bookId, bookName, bookAuthor, bookPublisher, bookTotal, bookAvailable, yearOfExport, 0);
-                BookDAO.updateBook(bookDTO);
-                url = UPDATE_SUCCESS;
-            } else {
-                request.setAttribute("BOOK_ERROR", bookErrorDTO);
-            }
-
+            List<UserDTO> listUser = UserDAO.getListUser();
+            HttpSession session = request.getSession();
+            session.setAttribute("LIST_USER", listUser);
+            url = GET_LIST_USER_SUCCESS;
         } catch (Exception e) {
-            log("Error at UpdateBookController " + e);
+            System.out.println("Get list user " + e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

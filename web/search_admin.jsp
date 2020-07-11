@@ -78,6 +78,8 @@
         </c:if>
         <a href="MainController?btnAction=Logout">Logout</a>
         <a href="add_book_page.jsp">Add book</a>
+        <a href="MainController?btnAction=GetListUser">List User</a>
+        <a href="MainController?btnAction=ViewProfile&userId=${userDTO.userId}&name=${userDTO.name}&cbxGender=${userDTO.gender}&phone=${userDTO.phone}&address=${userDTO.address}">View profile</a>
     </c:if>
 
 

@@ -6,23 +6,24 @@
 package controller;
 
 import daos.UserDAO;
+import dtos.PasswordErrorDTO;
 import dtos.UserDTO;
-import dtos.UserErrorDTO;
-
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class RegisterController extends HttpServlet {
+public class ChangePasswordController extends HttpServlet {
 
-    public static final String REGISTER_SUCCESS = "login.jsp";
-    public static final String REGISTER_ERROR = "register.jsp";
+    public static final String CHANGE_PASS_SUCCESS = "login.jsp";
+    public static final String CHANGE_PASS_ERROR = "change_pass_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,61 +37,47 @@ public class RegisterController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = REGISTER_ERROR;
-        UserErrorDTO userErrorDTO = new UserErrorDTO();
+        String url = CHANGE_PASS_ERROR;
         try {
-            boolean isValid = true;
-         //   request.setCharacterEncoding("UTF-8");
-            String userId = request.getParameter("userId");
-            String name = request.getParameter("name");
-            String gender = request.getParameter("cbxGender");
-            String phone = request.getParameter("phone");
-            String address = request.getParameter("address");
-            String password = request.getParameter("password");
-            String rePass = request.getParameter("rePassword");
-
-            if (userId.isEmpty()) {
-                userErrorDTO.setUserIdError("User name can not be empty");
-                isValid = false;
+            boolean check = true;
+            HttpSession session = request.getSession();
+            UserDTO userDTO = (UserDTO) session.getAttribute("USER_DTO");
+            String userId = userDTO.getUserId();
+            String currentPass = request.getParameter("currentPass");
+            String newPass = request.getParameter("newPass");
+            String reNewPass = request.getParameter("reNewPass");
+            PasswordErrorDTO passwordErrorDTO = new PasswordErrorDTO();
+            if (currentPass.equals("")) {
+                check = false;
+                passwordErrorDTO.setCurrenPassError("this field cannot be empty!!!");
             }
-            if (name.isEmpty()) {
-                userErrorDTO.setNameError("Full name can not be empty");
-                isValid = false;
+            if (newPass.equals("")) {
+                check = false;
+                passwordErrorDTO.setNewPassError("this field cannot be empty!!!");
             }
-            if (!password.endsWith(rePass)) {
-                userErrorDTO.setPasswordError("Password and repassword is not matched");
-                isValid = false;
-            } else if (password.isEmpty()) {
-                userErrorDTO.setPasswordError("Password can not be empty");
-                isValid = false;
+            if (reNewPass.equals("")) {
+                check = false;
+                passwordErrorDTO.setReNewPassError("this field cannot be empty!!!");
             }
-            request.setAttribute("USER_ID_VALUE", userId);
-            request.setAttribute("NAME_VALUE", name);
-            request.setAttribute("GENDER_VALUE", gender);
-            request.setAttribute("PHONE_VALUE", phone);
-            request.setAttribute("ADDRESS_VALUE", address);
-            request.setAttribute("PASSWORD_VALUE", password);
-            request.setAttribute("RE_PASSWORD_VALUE", rePass);
-
-            if (isValid) {
-                url = REGISTER_SUCCESS;
-                UserDTO userDTO = new UserDTO(userId, password, "US", name, gender, phone, address);
-                UserDAO.registAcc(userDTO);
-
+            if (!newPass.equals(reNewPass)) {
+                check = false;
+                passwordErrorDTO.setReNewPassError("Password and re-password are not matched!!!");
+            }
+            if (check) {
+                if (UserDAO.updatePassword(userId, currentPass, newPass)) {
+                    url = CHANGE_PASS_SUCCESS;
+                } else {
+                    passwordErrorDTO.setCurrenPassError("Wrong password!!!");
+                    request.setAttribute("CHANGE_PASS_MESSAGE", passwordErrorDTO);
+                }
             } else {
-                request.setAttribute("ERROR_ACCOUNT", userErrorDTO);
+                request.setAttribute("CHANGE_PASS_MESSAGE", passwordErrorDTO);
             }
-
         } catch (Exception e) {
-            if (e.toString().contains("duplicate")) {
-                userErrorDTO.setUserIdError("This user name existed!!!");
-                request.setAttribute("ERROR_ACCOUNT", userErrorDTO);
-                url = REGISTER_ERROR;
-            }
+            System.out.println("Change pass controller " + e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
