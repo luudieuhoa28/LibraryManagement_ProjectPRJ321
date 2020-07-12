@@ -47,11 +47,12 @@ public class ReturnBookController extends HttpServlet {
             HttpSession session = request.getSession();
             Map<Integer, List<BorrowedBook>> mapBorrowedBook = (Map<Integer, List<BorrowedBook>>) session.getAttribute("MAP_BORROWED_BOOK");
             List<BorrowedBook> listBorrowedBook = mapBorrowedBook.get(orderId);
-            BookDAO.updateListAvailable(listBorrowedBook);
-            String txtSearch = request.getParameter("txtSearch");
-            List<BookDTO> listSearchBook = BookDAO.searchBookByName(txtSearch);
-            session.setAttribute("LIST_SEARCH_BOOK", listSearchBook);
-            url = RETURN_BOOK_SUCCESS;
+            if (BookDAO.updateListAvailable(listBorrowedBook)) {
+                String txtSearch = request.getParameter("txtSearch");
+                List<BookDTO> listSearchBook = BookDAO.searchBookByName(txtSearch);
+                session.setAttribute("LIST_SEARCH_BOOK", listSearchBook);
+                url = RETURN_BOOK_SUCCESS;
+            }
         } catch (Exception e) {
             System.out.println(e);
         } finally {

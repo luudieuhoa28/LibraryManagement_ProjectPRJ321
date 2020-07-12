@@ -86,11 +86,13 @@ public class BorrowBookController extends HttpServlet {
                                 quantity = Integer.parseInt(request.getParameter("quantityInCart"));
                                 int available = bookDTO.getAvailableBook();
                                 if (quantity <= available && quantity > 0) {
-                                    int orderId = OrderDAO.addOrder(orderDTO);
-                                    OrderDetailDTO orderDetailDTO = new OrderDetailDTO(orderId, bookId, quantity);
-                                    OrderDetailDAO.addOrderDetail(orderDetailDTO);
-                                    BookDAO.updateAvailable(bookId, quantity);
-                                    request.setAttribute("BORROW_MESSAGE", "Borrow successfully!!!");
+                                    OrderDetailDTO orderDetailDTO = new OrderDetailDTO(bookId, quantity);
+                                    boolean result = OrderDAO.addOrder1(orderDTO, orderDetailDTO);
+                                    if (result) {
+                                        request.setAttribute("BORROW_MESSAGE", "Borrow successfully!!!");
+                                    } else {
+                                        request.setAttribute("BORROW_MESSAGE", "Something wrong hereee!!!");
+                                    }
                                 } else {
                                     request.setAttribute("BORROW_MESSAGE", "The number of this book is limited!!!");
                                 }
@@ -101,10 +103,13 @@ public class BorrowBookController extends HttpServlet {
                             //this is from search_user
                         } else {
                             if (quantity <= bookDTO.getAvailableBook()) {
-                                int orderId = OrderDAO.addOrder(orderDTO);
-                                OrderDetailDTO orderDetailDTO = new OrderDetailDTO(orderId, bookId, quantity);
-                                OrderDetailDAO.addOrderDetail(orderDetailDTO);
-                                BookDAO.updateAvailable(bookId, quantity);
+                                OrderDetailDTO orderDetailDTO = new OrderDetailDTO(bookId, quantity);
+                                boolean result = OrderDAO.addOrder1(orderDTO, orderDetailDTO);
+                                if (result) {
+                                    request.setAttribute("BORROW_MESSAGE", "Borrow successfully!!!");
+                                } else {
+                                    request.setAttribute("BORROW_MESSAGE", "Something wrong hereee!!!");
+                                }
                                 request.setAttribute("BORROW_MESSAGE", "Borrow successfully!!!");
                             } else {
                                 request.setAttribute("BORROW_MESSAGE", "The available books is not enough!!!");
@@ -153,14 +158,14 @@ public class BorrowBookController extends HttpServlet {
                         }
                     }
                     if (check) {
-                        int orderId = OrderDAO.addOrder(orderDTO);
-                        for (OrderDetailDTO orderDetailDTO : listDetail) {
-                            orderDetailDTO.setOrderId(orderId);
+                        boolean result = OrderDAO.addOrderCart(orderDTO, listDetail);
+                        if (result) {
+                            request.setAttribute("BORROW_MESSAGE", "Borrow successfully!!!");                     
+                            session.setAttribute("CART", null);
+                        } else {
+                            request.setAttribute("BORROW_MESSAGE", "Something wrong hereee!!!");
                         }
-                        OrderDetailDAO.addOrderDetail(listDetail);
-                        BookDAO.updateAvailable(listDetail);
-                        request.setAttribute("BORROW_MESSAGE", "Borrow successfully!!!");
-                        session.setAttribute("CART", null);
+
                     } else {
                         request.setAttribute("BORROW_MESSAGE", "Check your cart again!!!");
                     }

@@ -132,9 +132,9 @@ public class UserDAO {
             conn = dbutils.DBUtils.getConnection();
             if (conn != null) {
                 listUser = new ArrayList<>();
-                String sql = "SELECT library_user_id, name, gender, phone, address "
+                String sql = "SELECT library_user_id, name, gender, phone, address, status "
                         + "FROM Library_User "
-                        + "WHERE role_id = 'US' and status = 1";
+                        + "WHERE role_id = 'US'";
                 preparedStatement = conn.prepareStatement(sql);
                 resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
@@ -143,7 +143,8 @@ public class UserDAO {
                     String gender = resultSet.getString("gender");
                     String phone = resultSet.getString("phone");
                     String address = resultSet.getString("address");
-                    UserDTO userDTO = new UserDTO(userId, "", "user", name, gender, phone, address);
+                    boolean status = resultSet.getBoolean("status");
+                    UserDTO userDTO = new UserDTO(userId, "", "user", name, gender, phone, address, status);
                     listUser.add(userDTO);
                 }
             }

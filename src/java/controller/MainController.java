@@ -39,6 +39,8 @@ public class MainController extends HttpServlet {
     public final static String DISABLE_USER = "DisableUserController";
     public final static String UPDATE_PROFILE = "UpDateProfileController";
     public final static String VIEW_PROFILE = "ViewProfileController";
+    public final static String ENABLE_PROFILE = "EnableUserController";
+    public final static String VIEW_CART = "ViewCartController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -115,6 +117,12 @@ public class MainController extends HttpServlet {
                     break;
                 case "ViewProfile":
                     url = VIEW_PROFILE;
+                    break;
+                case "Enable User":
+                    url = ENABLE_PROFILE;
+                    break;
+                case "ViewCart":
+                    url = VIEW_CART;
                     break;
             }
         } catch (Exception e) {

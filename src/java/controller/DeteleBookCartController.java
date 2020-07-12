@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  */
 public class DeteleBookCartController extends HttpServlet {
 
-    private static final String DELETE_BOOK_CART = "view_cart.jsp";
+    private static final String DELETE_BOOK_CART = "ViewCartController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

@@ -17,13 +17,13 @@
         <form action="MainController" method="POST">
             Book ID: <input type="text" readonly value="${param.bookId}" name="bookId"/><br/>
             <br/>
-            Name: <input type="text" value="${param.bookName}" name="bookName"/><br/>
+            Name: <input type="text" value="${param.bookName}" name="bookName" maxlength="50"/><br/>
             ${bookError.bookNameError}<br/>
-            Author: <input type="text" value="${param.bookAuthor}" name="bookAuthor"/><br/>
+            Author: <input type="text" value="${param.bookAuthor}" name="bookAuthor" maxlength="50"/><br/>
             <br/>
-            Publisher: <input type="text" value="${param.bookPublisher}" name="bookPublisher"/><br/>
+            Publisher: <input type="text" value="${param.bookPublisher}" name="bookPublisher" maxlength="50"/><br/>
             <br/>
-            Export year: <input type="text" value="${param.yearOfExport}" name="yearOfExport"/><br/>
+            Export year: <input type="text" value="${param.yearOfExport}" name="yearOfExport" maxlength="10"/><br/>
             ${bookError.bookYearExError}<br/>
             Total<input type="number" value="${param.bookTotal}" name="bookTotal"/><br/>
             ${bookError.bookTotalError}<br/>

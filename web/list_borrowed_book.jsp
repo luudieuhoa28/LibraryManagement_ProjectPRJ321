@@ -13,6 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <a href="SearchController?txtSearch=${param.txtSearch}">Search</a>  
         <c:if test="${sessionScope.MAP_BORROWED_BOOK != null}">
             <c:set var="mapBorrowedBook" value="${sessionScope.MAP_BORROWED_BOOK}"/>
             <c:set var="mapOrder" value="${sessionScope.MAP_ORDER}"/>
@@ -52,6 +53,6 @@
                 <p>You have not borrowed any books yet!!!</p>
             </c:if>
         </c:if>
-                <a href="SearchController?txtSearch=${param.txtSearch}">Search</a>       
+
     </body>
 </html>

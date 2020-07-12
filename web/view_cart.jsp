@@ -13,6 +13,7 @@
         <title>View Cart Page</title>
     </head>
     <body>
+        <a href="SearchController?txtSearch=${param.txtSearch}">Search</a>  
         <c:if test="${sessionScope.CART == null}">
             <p>You have not selected the book!!!</p>
         </c:if>
@@ -42,6 +43,7 @@
                             <input type="hidden" value="${mapCart.value.bookId}" name="bookId"/>
                             <td>${mapCart.value.bookName}</td>
                             <td><input type="text" value="${mapCart.value.numInCart}" name="numInCart"/></td>
+                            <input type="hidden" value="${param.txtSearch}" name="txtSearch"/>
                             <td><input type="submit" name="btnAction" value="Update Cart"/></td>
                             <td><input type="submit" name="btnAction" value="Delete"/></td>
                             </tr>

@@ -62,7 +62,9 @@ public class AddBookController extends HttpServlet {
             }
             int bookExportYear = 0;
             try {
-                bookExportYear = Integer.parseInt(request.getParameter("bookExportYear"));
+                if (!request.getParameter("bookExportYear").equals("")) {
+                    bookExportYear = Integer.parseInt(request.getParameter("bookExportYear"));
+                }
             } catch (Exception e) {
                 bookErrorDTO.setBookYearExError("This must be a number");
                 check = false;

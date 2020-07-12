@@ -5,20 +5,26 @@
  */
 package controller;
 
+import dtos.BookDTO;
+import dtos.CartDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class ShowBookInfoController extends HttpServlet {
+public class ViewCartController extends HttpServlet {
 
-    public static final String GET_BOOK_SUCESS = "book_infor.jsp";
+    public static final String VIEW_CART = "view_cart.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,18 +38,24 @@ public class ShowBookInfoController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = GET_BOOK_SUCESS;
+        String url = VIEW_CART;
         try {
-            int available = Integer.parseInt(request.getParameter("available"));
-            if (request.getAttribute("AVAILABLE") != null) {
-                available = Integer.parseInt((String) request.getAttribute("AVAILABLE"));
+            HttpSession session = request.getSession();
+            CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
+            Map<String, BookDTO> cart = cartDTO.getCart();
+            Set<String> bookIdSet = cart.keySet();
+            Iterator it = bookIdSet.iterator();
+            while (it.hasNext()) {
+                String bookId = (String) it.next();
+                if (cart.get(bookId).getNumInCart() == 0) {
+                    cart.remove(bookId);
+                }
             }
-            request.setAttribute("AVAILABLE", available);
         } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            System.out.println("ViewCartController " + e);
         }
+
+        request.getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

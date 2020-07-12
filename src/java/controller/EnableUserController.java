@@ -6,23 +6,21 @@
 package controller;
 
 import daos.UserDAO;
-import dtos.UserDTO;
-import dtos.UserErrorDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class UpDateProfileController extends HttpServlet {
+public class EnableUserController extends HttpServlet {
 
-    public static final String UPDATE_PROFILE_SUCESS = "view_profile_page.jsp";
+    private static final String ENABLE_USER_SUCCESS = "GetListUserController";
+    private static final String ENABLE_USER_ERROR = "error_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,42 +34,14 @@ public class UpDateProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = UPDATE_PROFILE_SUCESS;
+        String url = ENABLE_USER_ERROR;
         try {
-            boolean isValid = true;
-            UserErrorDTO userErrorDTO = new UserErrorDTO();
-            HttpSession session = request.getSession();
-            UserDTO userDTOSession = (UserDTO) session.getAttribute("USER_DTO");
             String userId = request.getParameter("userId");
-            String name = request.getParameter("name");
-            String gender = request.getParameter("cbxGender");
-            String phone = request.getParameter("phone");
-            String address = request.getParameter("address");
-            if (!phone.trim().equals("")) {
-                int phoneInt = 0;
-                try {
-                    phoneInt = Integer.parseInt(phone.trim());
-                } catch (Exception e) {
-                    userErrorDTO.setPhoneError("This must be a number");
-                    isValid = false;
-                }
-            }
-
-            if (name.isEmpty()) {
-                userErrorDTO.setNameError("Full name can not be empty");
-                isValid = false;
-            }
-
-            if (isValid) {
-                UserDTO userDTO = new UserDTO(userId, "", userDTOSession.getRole(), name, gender, phone, address);
-                UserDAO.updateProfile(userDTO);
-                session.setAttribute("USER_DTO", userDTO);
-                request.setAttribute("MESSAGE_UPDATE", "Update successfully!!!");
-            } else {
-                request.setAttribute("ERROR_UPDATE", userErrorDTO);
+            if (UserDAO.updateUserStatus(userId, true)) {
+                url = ENABLE_USER_SUCCESS;
             }
         } catch (Exception e) {
-            System.out.println("Update Controller " + e);
+            System.out.println("Delete User " + e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -42,6 +42,10 @@ public class UpdateBookController extends HttpServlet {
             BookErrorDTO bookErrorDTO = new BookErrorDTO();
             boolean check = true;
             String bookId = request.getParameter("bookId");
+            BookDTO currrentBookDTO = BookDAO.getBook(bookId);
+            int currentTotal = currrentBookDTO.getTotalBook();
+            int currentAvaible = currrentBookDTO.getAvailableBook();
+            int currentBorrowed = currentTotal - currentAvaible;
             String bookName = request.getParameter("bookName");
             if (bookName.isEmpty()) {
                 bookErrorDTO.setBookNameError("Name cannot be null!!!");
@@ -58,14 +62,20 @@ public class UpdateBookController extends HttpServlet {
                 }
             }
             int bookTotal = 0;
+            int bookAvailable = Integer.parseInt(request.getParameter("bookAvailable"));
             try {
                 bookTotal = Integer.parseInt(request.getParameter("bookTotal"));
+                if (bookTotal < currentBorrowed) {
+                    check = false;
+                    bookErrorDTO.setBookTotalError("The number of borrowed books is larger than this number!!!");
+                } else {
+                    bookAvailable = bookTotal - currentBorrowed;
+                }
             } catch (Exception e) {
                 bookErrorDTO.setBookTotalError("This must be a number!!!");
                 check = false;
             }
 
-            int bookAvailable = Integer.parseInt(request.getParameter("bookAvailable"));
             if (check) {
                 BookDTO bookDTO = new BookDTO(bookId, bookName, bookAuthor, bookPublisher, bookTotal, bookAvailable, yearOfExport, 0);
                 BookDAO.updateBook(bookDTO);
