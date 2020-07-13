@@ -40,7 +40,7 @@ public class RegisterController extends HttpServlet {
         UserErrorDTO userErrorDTO = new UserErrorDTO();
         try {
             boolean isValid = true;
-           
+            //   request.setCharacterEncoding("UTF-8");
             String userId = request.getParameter("userId");
             String name = request.getParameter("name");
             String gender = request.getParameter("cbxGender");
@@ -64,6 +64,16 @@ public class RegisterController extends HttpServlet {
                 userErrorDTO.setPasswordError("Password can not be empty");
                 isValid = false;
             }
+            if (!phone.trim().equals("")) {
+                int phoneInt = 0;
+                try {
+                    phoneInt = Integer.parseInt(phone.trim());
+                } catch (Exception e) {
+                    userErrorDTO.setPhoneError("This must be a number");
+                    isValid = false;
+                }
+            }
+
             request.setAttribute("USER_ID_VALUE", userId);
             request.setAttribute("NAME_VALUE", name);
             request.setAttribute("GENDER_VALUE", gender);

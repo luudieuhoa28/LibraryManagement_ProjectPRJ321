@@ -5,22 +5,22 @@
  */
 package controller;
 
-import dtos.CartDTO;
+import daos.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class DeteleBookCartController extends HttpServlet {
+public class DisableUserController extends HttpServlet {
 
-    private static final String DELETE_BOOK_CART = "ViewCartController";
+    private static final String DELETE_USER_SUCCESS = "GetListUserController";
+    private static final String DELETE_USER_ERROR = "error_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,13 +34,14 @@ public class DeteleBookCartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = DELETE_BOOK_CART;
+        String url = DELETE_USER_ERROR;
         try {
-            String bookId = request.getParameter("bookId");
-            HttpSession session = request.getSession();
-            CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
-            cartDTO.delete(bookId);
+            String userId = request.getParameter("userId");
+            if (UserDAO.updateUserStatus(userId, false)) {
+                url = DELETE_USER_SUCCESS;
+            }
         } catch (Exception e) {
+            System.out.println("Delete User " + e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

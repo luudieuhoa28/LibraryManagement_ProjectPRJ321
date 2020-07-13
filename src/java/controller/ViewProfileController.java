@@ -5,22 +5,20 @@
  */
 package controller;
 
-import dtos.CartDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class DeteleBookCartController extends HttpServlet {
+public class ViewProfileController extends HttpServlet {
 
-    private static final String DELETE_BOOK_CART = "ViewCartController";
+    public static final String VIEW_PROFILE_SUCESS = "view_profile_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,19 +32,11 @@ public class DeteleBookCartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = DELETE_BOOK_CART;
-        try {
-            String bookId = request.getParameter("bookId");
-            HttpSession session = request.getSession();
-            CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
-            cartDTO.delete(bookId);
-        } catch (Exception e) {
-        } finally {
-            request.getRequestDispatcher(url).forward(request, response);
-        }
+        request.getRequestDispatcher(VIEW_PROFILE_SUCESS).forward(request, response);
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

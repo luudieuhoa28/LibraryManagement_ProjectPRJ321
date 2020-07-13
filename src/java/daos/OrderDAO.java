@@ -6,6 +6,7 @@
 package daos;
 
 import dtos.OrderDTO;
+import dtos.OrderDetailDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,11 +25,11 @@ import java.util.Map;
  */
 public class OrderDAO {
 
-    public static int addOrder(OrderDTO orderDTO) throws SQLException {
+    public static boolean addOrderCart(OrderDTO orderDTO, List<OrderDetailDTO> listDetail) throws SQLException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
-        int key = 0;
+        boolean result = false;
         try {
             conn = utils.DBUtils.getConnection();
             if (conn != null) {
@@ -42,7 +43,18 @@ public class OrderDAO {
                 preparedStatement.executeUpdate();
                 rs = preparedStatement.getGeneratedKeys();
                 if (rs.next()) {
-                    key = rs.getInt(1);
+                    int key = rs.getInt(1);
+                    for (OrderDetailDTO orderDetailDTO : listDetail) {
+                        orderDetailDTO.setOrderId(key);
+                    }
+                    if (OrderDetailDAO.addOrderDetail(listDetail, conn)) {
+                        if (BookDAO.updateAvailable(listDetail, conn)) {
+                            conn.commit();
+                            conn.setAutoCommit(true);
+                            result = true;
+                        }
+                    }
+
                 }
             }
         } catch (Exception e) {
@@ -58,7 +70,55 @@ public class OrderDAO {
                 rs.close();
             }
         }
-        return key;
+        return result;
+    }
+
+    public static boolean addOrder1(OrderDTO orderDTO, OrderDetailDTO orderDetailDTO) throws SQLException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        boolean result = false;
+
+        try {
+            conn = dbutils.DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "INSERT INTO Borrow_Order(library_user_id, borrow_date, return_date, is_returned) "
+                        + "VALUES (?,?,?,?);";
+                preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, orderDTO.getUserID());
+                preparedStatement.setString(2, orderDTO.getBorrowDate());
+                preparedStatement.setString(3, orderDTO.getReturnDate());
+                preparedStatement.setBoolean(4, false);
+                conn.setAutoCommit(false);
+                preparedStatement.executeUpdate();
+                rs = preparedStatement.getGeneratedKeys();
+                if (rs.next()) {
+                    int key = rs.getInt(1);
+                    orderDetailDTO.setOrderId(key);
+                    if (OrderDetailDAO.addOrderDetail(orderDetailDTO, conn)) {
+                        if (BookDAO.updateAvailable(orderDetailDTO.getBookId(), orderDetailDTO.getQuantity(), conn)) {
+                            conn.commit();
+                            conn.setAutoCommit(true);
+                            result = true;
+                        }
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
+        }
+        return result;
     }
 
     public static Map<Integer, OrderDTO> getListOrder(String userId) throws SQLException {

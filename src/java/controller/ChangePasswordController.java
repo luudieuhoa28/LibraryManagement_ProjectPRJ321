@@ -5,25 +5,25 @@
  */
 package controller;
 
-import daos.BookDAO;
-import dtos.BookDTO;
-import dtos.BookErrorDTO;
+import daos.UserDAO;
+import dtos.PasswordErrorDTO;
+import dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author dell
  */
-public class UpdateBookController extends HttpServlet {
+public class ChangePasswordController extends HttpServlet {
 
-    public static final String UPDATE_SUCCESS = "SearchController";
-    public static final String UPDATE_ERROR = "update_book.jsp";
-    //public static final String UPDATE_ERROR = "error_page.jsp";
+    public static final String CHANGE_PASS_SUCCESS = "login.jsp";
+    public static final String CHANGE_PASS_ERROR = "change_pass_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,55 +37,44 @@ public class UpdateBookController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = UPDATE_ERROR;
+        String url = CHANGE_PASS_ERROR;
         try {
-            BookErrorDTO bookErrorDTO = new BookErrorDTO();
             boolean check = true;
-            String bookId = request.getParameter("bookId");
-            BookDTO currrentBookDTO = BookDAO.getBook(bookId);
-            int currentTotal = currrentBookDTO.getTotalBook();
-            int currentAvaible = currrentBookDTO.getAvailableBook();
-            int currentBorrowed = currentTotal - currentAvaible;
-            String bookName = request.getParameter("bookName");
-            if (bookName.isEmpty()) {
-                bookErrorDTO.setBookNameError("Name cannot be null!!!");
+            HttpSession session = request.getSession();
+            UserDTO userDTO = (UserDTO) session.getAttribute("USER_DTO");
+            String userId = userDTO.getUserId();
+            String currentPass = request.getParameter("currentPass");
+            String newPass = request.getParameter("newPass");
+            String reNewPass = request.getParameter("reNewPass");
+            PasswordErrorDTO passwordErrorDTO = new PasswordErrorDTO();
+            if (currentPass.equals("")) {
                 check = false;
+                passwordErrorDTO.setCurrenPassError("this field cannot be empty!!!");
             }
-            String bookAuthor = request.getParameter("bookAuthor");
-            String bookPublisher = request.getParameter("bookPublisher");
-            int yearOfExport = 0;
-            if (!request.getParameter("yearOfExport").equals("")) {
-                try {
-                    yearOfExport = Integer.parseInt(request.getParameter("yearOfExport"));
-                } catch (Exception e) {
-                    bookErrorDTO.setBookYearExError("This must be a number!!!");
-                }
-            }
-            int bookTotal = 0;
-            int bookAvailable = Integer.parseInt(request.getParameter("bookAvailable"));
-            try {
-                bookTotal = Integer.parseInt(request.getParameter("bookTotal"));
-                if (bookTotal < currentBorrowed) {
-                    check = false;
-                    bookErrorDTO.setBookTotalError("The number of borrowed books is larger than this number!!!");
-                } else {
-                    bookAvailable = bookTotal - currentBorrowed;
-                }
-            } catch (Exception e) {
-                bookErrorDTO.setBookTotalError("This must be a number!!!");
+            if (newPass.equals("")) {
                 check = false;
+                passwordErrorDTO.setNewPassError("this field cannot be empty!!!");
             }
-
+            if (reNewPass.equals("")) {
+                check = false;
+                passwordErrorDTO.setReNewPassError("this field cannot be empty!!!");
+            }
+            if (!newPass.equals(reNewPass)) {
+                check = false;
+                passwordErrorDTO.setReNewPassError("Password and re-password are not matched!!!");
+            }
             if (check) {
-                BookDTO bookDTO = new BookDTO(bookId, bookName, bookAuthor, bookPublisher, bookTotal, bookAvailable, yearOfExport, 0);
-                BookDAO.updateBook(bookDTO);
-                url = UPDATE_SUCCESS;
+                if (UserDAO.updatePassword(userId, currentPass, newPass)) {
+                    url = CHANGE_PASS_SUCCESS;
+                } else {
+                    passwordErrorDTO.setCurrenPassError("Wrong password!!!");
+                    request.setAttribute("CHANGE_PASS_MESSAGE", passwordErrorDTO);
+                }
             } else {
-                request.setAttribute("BOOK_ERROR", bookErrorDTO);
+                request.setAttribute("CHANGE_PASS_MESSAGE", passwordErrorDTO);
             }
-
         } catch (Exception e) {
-            log("Error at UpdateBookController " + e);
+            System.out.println("Change pass controller " + e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

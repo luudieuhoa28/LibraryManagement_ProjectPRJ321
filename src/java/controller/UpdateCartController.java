@@ -22,7 +22,8 @@ import javax.servlet.http.HttpSession;
  */
 public class UpdateCartController extends HttpServlet {
 
-    public final static String UPDATE_CART = "view_cart.jsp";
+    public final static String VIEW_CART_SUCCESS = "ViewCartController";
+    public final static String VIEW_CART_ERROR = "ViewCartController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,7 +37,7 @@ public class UpdateCartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = UPDATE_CART;
+        String url = VIEW_CART_SUCCESS;
         try {
             String bookId = request.getParameter("bookId");
             BookDTO bookDTO = BookDAO.getBook(bookId);
@@ -47,10 +48,14 @@ public class UpdateCartController extends HttpServlet {
                         HttpSession session = request.getSession();
                         CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
                         int availableBook = bookDTO.getAvailableBook();
-                        if (availableBook >= numInCart) {
-                            cartDTO.updateQuantity(bookId, numInCart);
+                        if (numInCart >= 0) {
+                            if (availableBook >= numInCart) {
+                                cartDTO.updateQuantity(bookId, numInCart);
+                            } else {
+                                request.setAttribute("MESSAGE_CART", "This have only " + availableBook + " available books!!!");
+                            }
                         } else {
-                            request.setAttribute("MESSAGE_CART", "This have only " + availableBook + " available books!!!");
+                            request.setAttribute("MESSAGE_CART", "This must be a positive number!!!");
                         }
 
                     } catch (Exception e) {

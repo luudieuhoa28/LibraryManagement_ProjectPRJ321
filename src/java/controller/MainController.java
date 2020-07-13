@@ -34,6 +34,13 @@ public class MainController extends HttpServlet {
     public final static String DELETE_BOOK_CART = "DeteleBookCartController";
     public final static String SHOW_BORROWED_BOOK = "ShowListBorrowedBookController";
     public final static String RETURN_BOOK = "ReturnBookController";
+    public final static String CHANGE_PASSWORD = "ChangePasswordController";
+    public final static String GET_LIST_USER = "GetListUserController";
+    public final static String DISABLE_USER = "DisableUserController";
+    public final static String UPDATE_PROFILE = "UpDateProfileController";
+    public final static String VIEW_PROFILE = "ViewProfileController";
+    public final static String ENABLE_PROFILE = "EnableUserController";
+    public final static String VIEW_CART = "ViewCartController";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -96,6 +103,27 @@ public class MainController extends HttpServlet {
                     break;
                 case "Return Books":
                     url = RETURN_BOOK;
+                    break;
+                case "Change password":
+                    url = CHANGE_PASSWORD;
+                    break;
+                case "GetListUser":
+                    url = GET_LIST_USER;
+                    break;
+                case "Disable User":
+                    url = DISABLE_USER;
+                    break;
+                case "Update profile":
+                    url = UPDATE_PROFILE;
+                    break;
+                case "ViewProfile":
+                    url = VIEW_PROFILE;
+                    break;
+                case "Enable User":
+                    url = ENABLE_PROFILE;
+                    break;
+                case "ViewCart":
+                    url = VIEW_CART;
                     break;
             }
         } catch (Exception e) {

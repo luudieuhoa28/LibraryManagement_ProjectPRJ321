@@ -14,14 +14,19 @@
     </head>
     <body>
         <c:set var="userDTO" value="${sessionScope.USER_DTO}"/>
-        <c:if test="${userDTO == null}">
-            <c:redirect url="login.jsp"/>
-        </c:if>
         <h1>Welcome ${userDTO.name}</h1>
+        <a href="MainController?btnAction=Logout">Logout</a>
+        <a href="MainController?btnAction=ViewCart&txtSearch=${param.txtSearch}">View Cart</a>
+        <a href="MainController?btnAction=ListBorrowedBook&txtSearch=${param.txtSearch}">View Borrowed Book</a>       
+        <a href="MainController?btnAction=Change password&txtSearch=${param.txtSearch}">Change password</a>
+        <a href="MainController?btnAction=ViewProfile&userId=${userDTO.userId}&name=${userDTO.name}&cbxGender=${userDTO.gender}&phone=${userDTO.phone}&address=${userDTO.address}&txtSearch=${param.txtSearch}">View profile</a>
         <form action="MainController">
             <input name="txtSearch" type="text" value="${param.txtSearch}"/>
             <input type="submit" name="btnAction" value="Search"/>
         </form>
+        ${requestScope.BORROW_MESSAGE}
+        ${requestScope.INFOR_MESSAGE}
+        <p>${requestScope.MESSAGE_CART}</p>
         <c:if test="${sessionScope.LIST_SEARCH_BOOK != null}">
             <c:if test="${!sessionScope.LIST_SEARCH_BOOK.isEmpty()}">
                 <table border="1">
@@ -70,13 +75,8 @@
             </table>
 
         </c:if>
-        <p>${requestScope.MESSAGE_CART}</p>
-        <a href="MainController?btnAction=Logout">Logout</a>
-        <a href="view_cart.jsp">View Cart</a>
-        ${requestScope.BORROW_MESSAGE}
-        ${requestScope.INFOR_MESSAGE}
-        <a href="MainController?btnAction=ListBorrowedBook&txtSearch=${param.txtSearch}">View Borrowed Book</a>
-        <a href="">Edit information</a>
+
+
     </c:if>
 </body>
 </html>

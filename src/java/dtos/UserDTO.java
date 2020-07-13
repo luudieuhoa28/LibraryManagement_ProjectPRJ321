@@ -11,7 +11,8 @@ import java.io.Serializable;
  *
  * @author dell
  */
-public class UserDTO implements Serializable{
+public class UserDTO implements Serializable {
+
     private String userId;
     private String password;
     private String role;
@@ -19,6 +20,7 @@ public class UserDTO implements Serializable{
     private String gender;
     private String phone;
     private String address;
+    private boolean isExisted;
 
     public UserDTO() {
     }
@@ -31,6 +33,25 @@ public class UserDTO implements Serializable{
         this.gender = gender;
         this.phone = phone;
         this.address = address;
+    }
+
+    public UserDTO(String userId, String password, String role, String name, String gender, String phone, String address, boolean isExisted) {
+        this.userId = userId;
+        this.password = password;
+        this.role = role;
+        this.name = name;
+        this.gender = gender;
+        this.phone = phone;
+        this.address = address;
+        this.isExisted = isExisted;
+    }
+
+    public boolean isIsExisted() {
+        return isExisted;
+    }
+
+    public void setIsExisted(boolean isExisted) {
+        this.isExisted = isExisted;
     }
 
     public String getUserId() {
@@ -88,7 +109,5 @@ public class UserDTO implements Serializable{
     public void setAddress(String address) {
         this.address = address;
     }
-    
-    
-    
+
 }

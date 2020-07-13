@@ -5,9 +5,11 @@
  */
 package controller;
 
-import dtos.CartDTO;
+import daos.UserDAO;
+import dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +20,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author dell
  */
-public class DeteleBookCartController extends HttpServlet {
+public class GetListUserController extends HttpServlet {
 
-    private static final String DELETE_BOOK_CART = "ViewCartController";
+    private static final String GET_LIST_USER_SUCCESS = "list_user.jsp";
+    private static final String GET_LIST_USER_ERROR = "error_page.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,13 +37,14 @@ public class DeteleBookCartController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = DELETE_BOOK_CART;
+        String url = GET_LIST_USER_ERROR;
         try {
-            String bookId = request.getParameter("bookId");
+            List<UserDTO> listUser = UserDAO.getListUser();
             HttpSession session = request.getSession();
-            CartDTO cartDTO = (CartDTO) session.getAttribute("CART");
-            cartDTO.delete(bookId);
+            session.setAttribute("LIST_USER", listUser);
+            url = GET_LIST_USER_SUCCESS;
         } catch (Exception e) {
+            System.out.println("Get list user " + e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
