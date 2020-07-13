@@ -80,7 +80,7 @@ public class OrderDAO {
         boolean result = false;
 
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "INSERT INTO Borrow_Order(library_user_id, borrow_date, return_date, is_returned) "
                         + "VALUES (?,?,?,?);";

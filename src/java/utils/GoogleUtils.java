@@ -53,6 +53,7 @@ public class GoogleUtils {
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(response);
         JSONObject obj2 = (JSONObject)obj;
+        System.out.println(obj2);
         return obj2.get("email").toString();
      }
 

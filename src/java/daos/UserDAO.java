@@ -60,7 +60,7 @@ public class UserDAO {
         }
         return userDTO;
     }
-
+    
     public static void registAcc(UserDTO userDTO) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -91,12 +91,12 @@ public class UserDAO {
             }
         }
     }
-
+    
     public static boolean updatePassword(String userId, String currentPass, String newPass) throws SQLException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "UPDATE Library_User "
                         + "SET password = ? "
@@ -122,14 +122,14 @@ public class UserDAO {
         }
         return false;
     }
-
+    
     public static List<UserDTO> getListUser() throws SQLException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         List<UserDTO> listUser = null;
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 listUser = new ArrayList<>();
                 String sql = "SELECT library_user_id, name, gender, phone, address, status "
@@ -163,12 +163,12 @@ public class UserDAO {
         }
         return listUser;
     }
-
+    
     public static boolean updateUserStatus(String userId, boolean status) throws SQLException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "UPDATE Library_User "
                         + "SET status = ? "
@@ -198,7 +198,7 @@ public class UserDAO {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
-            conn = dbutils.DBUtils.getConnection();
+            conn = utils.DBUtils.getConnection();
             if (conn != null) {
                 String sql = "UPDATE Library_User "
                         + "SET name = ?, gender = ?, phone = ?, address = ? "

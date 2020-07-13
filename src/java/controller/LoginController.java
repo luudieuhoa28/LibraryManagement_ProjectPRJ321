@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginController extends HttpServlet {
 
-    private static final String SEARCH_SUCCESS_ADMIN = "search_admin.jsp";
-    private static final String SEARCH_SUCCESS_USER = "search_user.jsp";
+    public static final String SEARCH_SUCCESS_ADMIN = "search_admin.jsp";
+    public static final String SEARCH_SUCCESS_USER = "search_user.jsp";
     public final static String LOGIN_ERROR = "login_error_page.jsp";
 
     /**
@@ -42,7 +42,7 @@ public class LoginController extends HttpServlet {
             String password = request.getParameter("password");
             UserDTO userDTO = UserDAO.checkLogin(userId, password);
             if (userDTO != null) {
-                log(userDTO.getRole());
+//                log(userDTO.getRole());
                 if (userDTO.getRole().contains("admin")) {
                     url = SEARCH_SUCCESS_ADMIN;
                 } else {

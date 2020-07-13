@@ -29,7 +29,7 @@ import javax.servlet.http.HttpSession;
 public class AuthenFilter implements Filter {
 
     private static final boolean debug = true;
-
+    
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
@@ -174,6 +174,7 @@ public class AuthenFilter implements Filter {
                     || uri.contains("LoginController")
                     || uri.contains("MainController")
                     || uri.contains("register.jsp")
+                    || uri.contains("googlecallback")
                     || uri.contains("RegisterController")) {
                 chain.doFilter(request, response);
             } else {

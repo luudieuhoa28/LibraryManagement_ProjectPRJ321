@@ -5,12 +5,16 @@
  */
 package controller;
 
+import daos.UserDAO;
+import dtos.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author Admins
@@ -26,20 +30,38 @@ public class LoginGoogleController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private static final String DEFAULT_PASSWORD = "Q:nC3$v~]/'.R`kc";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String code = request.getParameter("code");
-        if (code == null || code.isEmpty()){
+        String url = LoginController.LOGIN_ERROR;
+        if (code == null || code.isEmpty()) {
             System.out.println("Error");
-        }else{
+        } else {
             try (PrintWriter out = response.getWriter()) {
                 String token = utils.GoogleUtils.getToken(code);
                 String email = utils.GoogleUtils.getUserInfo(token);
+                UserDTO user = UserDAO.checkLogin(email, DEFAULT_PASSWORD);
+                if (user == null) {
+                    //reg
+                    user = new UserDTO(email, DEFAULT_PASSWORD, "US", "Customer", "", "", "");
+                    UserDAO.registAcc(user);
+                }
+                if (user.getRole().contains("admin")) {
+                    url = LoginController.SEARCH_SUCCESS_ADMIN;
+                } else {
+                    url = LoginController.SEARCH_SUCCESS_USER;
+                }
+                HttpSession session = request.getSession();
+                session.setAttribute("USER_DTO", user);
                 System.out.println("Email:" + email);
-                out.println(token);
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(e);
+            }
+            finally {
+                request.getRequestDispatcher(url).forward(request, response);
             }
         }
     }
