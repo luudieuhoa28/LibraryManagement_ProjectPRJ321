@@ -35,7 +35,7 @@
                     </thead>
                     <tbody>
                         <c:set var="cart" value="${sessionScope.CART.cart}"/>
-                        <c:forEach varStatus="counter" var="mapCart" items="${cart}">
+                        <c:forEach varStatus="counter" var="mapCart" items="${sessionScope.CART.cart}">
                         <form action="MainController" method="POST">
                             <tr>
                                 <td>${counter.count}</td>
