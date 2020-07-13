@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 /**
  *
  * @author Admins
@@ -32,23 +31,17 @@ public class LoginGoogleController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String code = request.getParameter("code");
         if (code == null || code.isEmpty()){
-            
+            System.out.println("Error");
         }else{
-            //
-            
+            try (PrintWriter out = response.getWriter()) {
+                String token = utils.GoogleUtils.getToken(code);
+                String email = utils.GoogleUtils.getUserInfo(token);
+                System.out.println("Email:" + email);
+                out.println(token);
+            }catch (Exception e){
+                System.out.println(e);
+            }
         }
-//        try (PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet LoginGoogleController</title>");            
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Code " + code + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

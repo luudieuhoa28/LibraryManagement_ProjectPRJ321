@@ -40,7 +40,7 @@ public class RegisterController extends HttpServlet {
         UserErrorDTO userErrorDTO = new UserErrorDTO();
         try {
             boolean isValid = true;
-            request.setCharacterEncoding("UTF-8");
+           
             String userId = request.getParameter("userId");
             String name = request.getParameter("name");
             String gender = request.getParameter("cbxGender");
