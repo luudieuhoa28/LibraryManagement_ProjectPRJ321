@@ -27,7 +27,7 @@ public class UserDAO {
         try {
             conn = utils.DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT Library_User.library_user_id, Library_User.password, Role_User.role_name, Library_User.name, Library_User.phone, Library_User.gender, Library_User.address "
+                String sql = "SELECT Library_User.library_user_id, Library_User.password, Role_User.role_id, Library_User.name, Library_User.phone, Library_User.gender, Library_User.address "
                         + "FROM Library_User, Role_User "
                         + "WHERE Library_User.role_id = Role_User.role_id and Library_User.library_user_id = ? and Library_User.password = ? and status = 1";
                 preparedStatement = conn.prepareStatement(sql);
@@ -37,7 +37,7 @@ public class UserDAO {
                 if (resultSet.next()) {
                     String userIdDTO = resultSet.getString("library_user_id");
                     String passwordDTO = resultSet.getString("password");
-                    String role = resultSet.getString("role_name");
+                    String role = resultSet.getString("role_id");
                     String name = resultSet.getString("name");
                     String gender = resultSet.getString("gender");
                     String phone = resultSet.getString("phone");
@@ -78,7 +78,7 @@ public class UserDAO {
                 preparedStatement.setString(6, userDTO.getPhone());
                 preparedStatement.setString(7, userDTO.getAddress());
                 preparedStatement.setBoolean(8, true);
-                preparedStatement.executeQuery();
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             throw e;

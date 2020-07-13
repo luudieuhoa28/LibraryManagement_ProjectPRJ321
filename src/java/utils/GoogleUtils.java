@@ -29,7 +29,7 @@ public class GoogleUtils {
     final static String GOOGLE_CLIENT_ID = "321765933526-j5blsda3p6483mjffa9djo9peqh2j16p.apps.googleusercontent.com";
     final static String GOOGLE_CLIENT_SECRET = "j-Xd5Iir318t-oBiiRiUzhtO";
     final static String GOOGLE_REDIRECT_URI = "http://localhost:8084/FinalProjectPRJ321/googlecallback";
-     final static String GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
+    final static String GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
     final static String GOOGLE_GRANT_TYPE = "authorization_code";
      public static String getToken(final String code) throws ClientProtocolException, IOException, ParseException {
     String response;

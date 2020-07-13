@@ -40,13 +40,13 @@ public class LoginGoogleController extends HttpServlet {
         if (code == null || code.isEmpty()) {
             System.out.println("Error");
         } else {
-            try (PrintWriter out = response.getWriter()) {
+            try  {
                 String token = utils.GoogleUtils.getToken(code);
                 String email = utils.GoogleUtils.getUserInfo(token);
+                String name = email.split("@")[0];
                 UserDTO user = UserDAO.checkLogin(email, DEFAULT_PASSWORD);
                 if (user == null) {
-                    //reg
-                    user = new UserDTO(email, DEFAULT_PASSWORD, "US", "Customer", "", "", "");
+                    user = new UserDTO(email, DEFAULT_PASSWORD, "US",  name, "", "", "");
                     UserDAO.registAcc(user);
                 }
                 if (user.getRole().contains("admin")) {
@@ -56,12 +56,12 @@ public class LoginGoogleController extends HttpServlet {
                 }
                 HttpSession session = request.getSession();
                 session.setAttribute("USER_DTO", user);
-                System.out.println("Email:" + email);
+                System.out.println(user);
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println("LoginGoogleController:"+e);
             }
             finally {
-                request.getRequestDispatcher(url).forward(request, response);
+                response.sendRedirect(url);
             }
         }
     }

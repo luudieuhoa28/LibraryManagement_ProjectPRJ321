@@ -186,9 +186,9 @@ public class AuthenFilter implements Filter {
                 } else {
                     UserDTO userDTO = (UserDTO) session.getAttribute("USER_DTO");
                     String role = userDTO.getRole();
-                    if (role.contains("user") && user.contains(resource)) {
+                    if (role.contains("US") && user.contains(resource)) {
                         chain.doFilter(request, response);
-                    } else if (role.contains("admin") && admin.contains(resource)) {
+                    } else if (role.contains("AD") && admin.contains(resource)) {
                         chain.doFilter(request, response);
                     } else {
                         res.sendRedirect(LOGIN_PAGE);

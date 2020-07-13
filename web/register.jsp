@@ -15,7 +15,7 @@
     <body>
     <c:set var="errorRegister" value="${requestScope.ERROR_ACCOUNT}"/>
         <form action="MainController" method="POST">
-            User name: <input type="text" name="userId" value="${requestScope.USER_ID_VALUE}" maxlength="50"/></br>
+            User name: <input type="text" name="userId" value="${requestScope.ADMIN}" maxlength="50"/></br>
             ${errorRegister.userIdError} </br>
             Full name: <input type="text" name="name" value="${requestScope.NAME_VALUE}" maxlength="50"/></br>
             ${errorRegister.nameError} </br>
